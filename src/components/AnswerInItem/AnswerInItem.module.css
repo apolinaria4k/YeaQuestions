@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.wrapperCharacter {
+  display: flex;
+  gap: 40px;
+}
+
+.image {
+  width: 716px;
+  height: 356px;
+  background-color: #474747;
+  border-radius: 16px;
+}
+
+.textOfAnswer {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  color: #474747;
+}

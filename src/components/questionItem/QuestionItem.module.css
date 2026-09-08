@@ -1,0 +1,33 @@
+.item {
+  max-width: 764px;
+  box-shadow: 0px 4px 10px 0px #6a63761a;
+  color: #191919;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 120%;
+  list-style: none;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.text {
+  position: relative;
+  padding-left: 24px;
+}
+
+.text::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  display: flex;
+  width: 8px;
+  height: 8px;
+  border-radius: 5px;
+  background-color: #5533ff;
+}

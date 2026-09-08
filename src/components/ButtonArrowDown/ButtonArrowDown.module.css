@@ -1,0 +1,12 @@
+.buttonArrow {
+  background-image: url('../../../public/arrowDown.svg');
+  width: 24px;
+  height: 12px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  cursor: pointer;
+}
