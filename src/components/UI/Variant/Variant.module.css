@@ -1,0 +1,17 @@
+.button {
+  padding: 12px;
+  border: 1px solid #bababa;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+.button:hover {
+  cursor: pointer;
+  border-color: #5509cc;
+}
+
+.activeButton {
+  border-color: #5509cc;
+}

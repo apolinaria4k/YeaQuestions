@@ -35,6 +35,7 @@
 .additionalInfo {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .copyright {
@@ -58,4 +59,10 @@
   align-items: center;
   font-size: 14px;
   color: #8c8c8c;
+}
+
+@media (max-width: 768px) {
+  .wrapperFooter {
+    padding: 30px 30px 17px 30px;
+  }
 }

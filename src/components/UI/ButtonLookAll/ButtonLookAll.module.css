@@ -1,0 +1,16 @@
+.button {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  color: #5509cc;
+  padding: 0;
+}
+
+.button:hover {
+  cursor: pointer;
+}

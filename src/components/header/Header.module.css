@@ -19,9 +19,25 @@
   align-items: center;
   gap: 40px;
 }
-.navList {
+
+.prepareButton {
+  display: none;
+  width: 130px;
+  text-align: left;
+}
+
+.prepareButton::after {
+  content: '';
   display: flex;
-  gap: 20px;
+  width: 16px;
+  height: 8px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  background-image: url(/public/Vector.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 button {
@@ -37,6 +53,10 @@ button {
   gap: 20px;
 }
 
+.burgerMenu {
+  display: none;
+}
+
 .enterButton {
   color: #6a0bff;
 }
@@ -46,4 +66,45 @@ button {
   color: #fff;
   padding: 11px 28px;
   border-radius: 12px;
+}
+
+.enterButton:hover,
+.signUpButton:hover {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 24px;
+  }
+  .wrapperHeader {
+    padding: 15px 30px;
+  }
+  .buttons {
+    display: none;
+  }
+
+  .burgerMenu {
+    display: flex;
+  }
+
+  .burgerMenu:hover {
+    cursor: pointer;
+  }
+
+  .navListWrapper {
+    position: relative;
+  }
+
+  .prepareButton {
+    display: flex;
+  }
+
+  .prepareButton:hover {
+    cursor: pointer;
+  }
+
+  /* .prepareButton:hover + .navList {
+    display: flex;
+  } */
 }

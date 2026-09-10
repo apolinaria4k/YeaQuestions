@@ -1,7 +1,22 @@
 .aside {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   width: 392px;
-  height: 943px;
   padding: 24px;
   border-radius: 24px;
   background-color: #fff;
+}
+
+.variants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .aside {
+    display: none;
+  }
 }

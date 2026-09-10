@@ -6,10 +6,32 @@
   box-shadow: 0px 4px 10px 0px #6a63761a;
 }
 
+.wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px solid #e8e8e8;
+  padding-bottom: 20px;
+}
+
 .title {
   font-size: 24px;
   font-weight: 500;
-  padding-bottom: 20px;
-  border-bottom: 0.5px solid #e8e8e8;
-  margin-bottom: 24px;
+}
+
+.svgButton {
+  display: none;
+}
+
+.questionList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .svgButton {
+    display: flex;
+  }
 }
