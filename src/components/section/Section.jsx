@@ -1,5 +1,5 @@
-import classes from './Section.module.css';
 import QuestionItem from '../questionItem/QuestionItem';
+import classes from './Section.module.css';
 
 export default function Section({ questions }) {
   return (

@@ -1,9 +1,6 @@
-import { useContext } from 'react';
 import classes from './MyInput.module.css';
-import { Context } from '../../../context';
 
-export default function MyInput() {
-  const { value, setValue } = useContext(Context);
+export default function MyInput({ value, setValue }) {
   return (
     <div className={classes.inputWrapper}>
       <svg

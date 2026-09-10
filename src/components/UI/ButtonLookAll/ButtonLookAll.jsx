@@ -1,29 +1,33 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import QuestionService from '../../../API/QuestionService';
-import { Context } from '../../../context';
-import { skillsLimit, specializationsLimit } from '../../utils/totals';
+import { useFetching } from '../../../hooks/useFetching';
 import classes from './ButtonLookAll.module.css';
 
-export default function ButtonLookAll({ title }) {
-  const { setSpecializations, setSkills } = useContext(Context);
+export default function ButtonLookAll({
+  title,
+  totalSkills,
+  totalSpec,
+  setSpecializations,
+  setSkills,
+}) {
   const [isLookAll, setIsLookAll] = useState(false);
+
+  const [fetchSpecializations] = useFetching(async () => {
+    const response = await QuestionService.getAllSpecializations(isLookAll ? undefined : totalSpec);
+    setSpecializations(response.data.data);
+  });
+
+  const [fetchSkills] = useFetching(async () => {
+    const response = await QuestionService.getAllSkills(isLookAll ? undefined : totalSkills);
+    setSkills(response.data.data);
+  });
 
   const handleClick = () => {
     if (title === 'Специализация') {
-      const newData = async () => {
-        const response = await QuestionService.getAllSpecializations(
-          isLookAll ? undefined : specializationsLimit,
-        );
-        setSpecializations(response.data.data);
-      };
-      newData();
+      fetchSpecializations();
     }
     if (title === 'Навыки') {
-      const newData = async () => {
-        const response = await QuestionService.getAllSkills(isLookAll ? undefined : skillsLimit);
-        setSkills(response.data.data);
-      };
-      newData();
+      fetchSkills();
     }
 
     setIsLookAll((prev) => !prev);

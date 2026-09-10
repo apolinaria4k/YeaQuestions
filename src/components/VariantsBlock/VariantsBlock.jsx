@@ -3,7 +3,17 @@ import classes from '../aside/Aside.module.css';
 import Variant from '../UI/Variant/Variant';
 import ButtonLookAll from '../UI/ButtonLookAll/ButtonLookAll';
 
-export default function VariantsBlock({ title, data, hasButton }) {
+export default function VariantsBlock({
+  setSpecializations,
+  setSkills,
+  title,
+  data,
+  hasButton,
+  totalSkills,
+  totalSpec,
+  specializations,
+  skills,
+}) {
   return (
     <div>
       <MyTitle title={title} />
@@ -12,7 +22,17 @@ export default function VariantsBlock({ title, data, hasButton }) {
           <Variant key={item.id} title={item.title} />
         ))}
       </div>
-      {hasButton && <ButtonLookAll title={title} />}
+      {hasButton && (
+        <ButtonLookAll
+          setSpecializations={setSpecializations}
+          specializations={specializations}
+          skills={skills}
+          setSkills={setSkills}
+          totalSkills={totalSkills}
+          totalSpec={totalSpec}
+          title={title}
+        />
+      )}
     </div>
   );
 }
