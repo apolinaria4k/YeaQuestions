@@ -1,20 +1,9 @@
-import { useState } from 'react';
 import classes from './Variant.module.css';
 
-export default function Variant({ title, id, changeSpecialization }) {
-  const [isActive, setIsActive] = useState(false);
-
-  const handleClick = (e) => {
-    changeSpecialization(Number(e.target.id));
-    setIsActive((prev) => !prev);
-  };
-
+export default function Variant({ title, onClick, isActive }) {
   return (
     <div>
-      <button
-        id={id}
-        onClick={handleClick}
-        className={`${classes.button} ${isActive && classes.activeButton}`}>
+      <button onClick={onClick} className={isActive ? classes.activeButton : classes.button}>
         {title}
       </button>
     </div>

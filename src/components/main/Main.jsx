@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import QuestionService from '../../API/QuestionService';
 import { useFetching } from '../../hooks/useFetching';
-import { useQuestions } from '../../hooks/useQuestions';
 import Aside from '../aside/Aside';
 import Section from '../section/Section';
 import { getTotalPages } from '../utils/pages';
@@ -12,36 +11,60 @@ export default function Main() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [specializations, setSpecializations] = useState([]);
-  const [totalSpec, setTotalSpec] = useState(10);
+  // const [totalSpec, setTotalSpec] = useState(10);
+  // const [totalSkills, setTotalSkills] = useState(10);
+  const [totals, setTotals] = useState({ totalSpec: 10, totalSkills: 10 });
   const [skills, setSkills] = useState([]);
-  const [totalSkills, setTotalSkills] = useState(10);
-  const [filter, setFilter] = useState({ value: '', specializations: [] });
+
+  const [filter, setFilter] = useState({
+    value: '',
+    specialization: null,
+    skill: null,
+    complexity: [],
+    rate: [],
+  });
   // const filteredQuestions = useQuestions(questions, filter.value, filter.specializations);
 
-  const [fetchQuestions, isLoading, error] = useFetching(async (page, title, specializationIds) => {
-    const response = await QuestionService.getAllQuestions(page, title, specializationIds);
-    setQuestions(response.data.data);
-    const totalCount = response.data.total;
-    console.log(response.data);
-    setTotalPages(getTotalPages(totalCount));
-  });
+  const [fetchQuestions, isLoading, error] = useFetching(
+    async (page, title, specialization, skill, complexity, rate) => {
+      const response = await QuestionService.getAllQuestions(
+        page,
+        title,
+        specialization,
+        skill,
+        complexity,
+        rate,
+      );
+      setQuestions(response.data.data);
+      const totalCount = response.data.total;
+      console.log(response.data);
+      setTotalPages(getTotalPages(totalCount));
+    },
+  );
 
   const [fetchSpecializations] = useFetching(async () => {
     const response = await QuestionService.getAllSpecializations();
     setSpecializations([...specializations, ...response.data.data]);
     const totalCount = response.data.total;
-    setTotalSpec(totalCount);
+    setTotals((prev) => ({ ...prev, totalSpec: totalCount }));
   });
 
   const [fetchSkills] = useFetching(async () => {
     const response = await QuestionService.getAllSkills();
     setSkills([...skills, ...response.data.data]);
     const totalCount = response.data.total;
-    setTotalSkills(totalCount);
+    setTotals((prev) => ({ ...prev, totalSkills: totalCount }));
   });
 
   useEffect(() => {
-    fetchQuestions(page, filter.value, filter.specializations);
+    fetchQuestions(
+      page,
+      filter.value,
+      filter.specialization,
+      filter.skill,
+      filter.complexity,
+      filter.rate,
+    );
   }, [page, filter]);
 
   useEffect(() => {
@@ -50,24 +73,27 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    console.log(filter.specializations);
-  }, [filter.specializations]);
+    console.log(filter.rate);
+  }, [filter]);
 
   const changePage = (page) => {
     setPage(page);
   };
 
   const changeSpecialization = (specialization) => {
-    setFilter((prev) => {
-      const exists = prev.specializations.includes(specialization);
+    setFilter((prev) => ({ ...prev, specialization: specialization }));
+  };
 
-      return {
-        ...prev,
-        specializations: exists
-          ? prev.specializations.filter((s) => s !== specialization)
-          : [...prev.specializations, specialization],
-      };
-    });
+  const changeSkill = (skill) => {
+    setFilter((prev) => ({ ...prev, skill: skill }));
+  };
+
+  const changeComplexity = (complexity) => {
+    setFilter((prev) => ({ ...prev, complexity: complexity }));
+  };
+
+  const changeRate = (rate) => {
+    setFilter((prev) => ({ ...prev, rate: rate }));
   };
 
   return (
@@ -85,8 +111,10 @@ export default function Main() {
             filter={filter}
             setValue={setFilter}
             changeSpecialization={changeSpecialization}
-            totalSkills={totalSkills}
-            totalSpec={totalSpec}
+            changeSkill={changeSkill}
+            changeComplexity={changeComplexity}
+            changeRate={changeRate}
+            totals={totals}
             specializations={specializations}
             setSpecializations={setSpecializations}
             skills={skills}

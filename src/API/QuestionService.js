@@ -1,35 +1,37 @@
 import axios from 'axios';
 
 export default class QuestionService {
-  static async getAllQuestions(page = 1, title, specializationIds = []) {
-    const baseParams = { page: page, title: title };
+  static async getAllQuestions(
+    page = 1,
+    title,
+    specializationId,
+    skills,
+    complexity = [],
+    rate = [],
+  ) {
+    let baseParams = {
+      page,
+      title,
+      specializationId,
+      skills,
+      rate,
+    };
 
-    if (!specializationIds.length) {
-      const response = await axios.get('https://api.yeatwork.ru/questions/public-questions', {
-        params: baseParams,
-      });
-
-      return response;
+    if (complexity.length) {
+      baseParams = { ...baseParams, complexity: complexity.join(',') };
     }
 
-    const responses = await Promise.all(
-      specializationIds.map((id) => {
-        return axios.get('https://api.yeatwork.ru/questions/public-questions', {
-          params: { ...baseParams, specializationId: id },
-        });
-      }),
-    );
+    if (rate.length) {
+      baseParams = { ...baseParams, rate: rate.join(',') };
+    }
 
-    const merged = responses.flatMap((r) => r.data.data);
-    const unique = Array.from(new Map(merged.map((q) => [q.id, q])).values());
-
-    return {
-      ...responses[0],
-      data: {
-        data: unique,
-        total: unique.length,
+    const response = await axios.get('https://api.yeatwork.ru/questions/public-questions', {
+      params: {
+        ...baseParams,
       },
-    };
+    });
+
+    return response;
   }
 
   static async getAllSpecializations(limit = 10) {
