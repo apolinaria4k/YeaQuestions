@@ -1,0 +1,40 @@
+.paginationWrapper {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.page {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 120%;
+  color: #474747;
+  padding: 6px;
+  border-radius: 2px;
+}
+
+.active {
+  background-color: #6a0bff;
+  color: #fff;
+}
+
+.page:hover {
+  background-color: #6a0bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.button:hover rect {
+  stroke: #6a0bff;
+  /* fill: #6a0bff; */
+}
+
+.button:hover path {
+  fill: #6a0bff;
+}

@@ -9,7 +9,6 @@ import { useQuestions } from '../../hooks/useQuestions';
 
 export default function Main() {
   const [questions, setQuestions] = useState([]);
-  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [specializations, setSpecializations] = useState([]);
@@ -19,11 +18,11 @@ export default function Main() {
   const [value, setValue] = useState('');
   const filteredQuestions = useQuestions(questions, value);
 
-  const [fetchQuestions, isLoading, error] = useFetching(async (limit, page) => {
-    const response = await QuestionService.getAllQuestions(limit, page);
-    setQuestions([...questions, ...response.data.data]);
+  const [fetchQuestions, isLoading, error] = useFetching(async (page) => {
+    const response = await QuestionService.getAllQuestions(page);
+    setQuestions(response.data.data);
     const totalCount = response.data.total;
-    setTotalPages(getTotalPages(totalCount, limit));
+    setTotalPages(getTotalPages(totalCount));
   });
 
   const [fetchSpecializations] = useFetching(async () => {
@@ -41,56 +40,29 @@ export default function Main() {
   });
 
   useEffect(() => {
-    fetchQuestions(limit, page);
-  }, [page, limit]);
+    fetchQuestions(page);
+  }, [page]);
 
   useEffect(() => {
     fetchSpecializations();
-  }, []);
-
-  useEffect(() => {
     fetchSkills();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchQuestions = async () => {
-  //     const response = await axios.get('https://api.yeatwork.ru/questions/public-questions');
-  //     const data = response.data;
-  //     console.log(response.data);
-  //     setQuestions(data.data);
-  //     setFilteredQuestions(data.data);
-  //   };
-
-  //   const fetchSpecializations = async () => {
-  //     const response = await axios.get('https://api.yeatwork.ru/specializations');
-  //     const data = response.data;
-  //     // console.log(response.data);
-  //     setSpecializations(data.data);
-  //   };
-
-  //   const fetchSkills = async () => {
-  //     const response = await axios.get('https://api.yeatwork.ru/skills');
-  //     const data = response.data;
-  //     setSkills(data.data);
-  //   };
-
-  //   fetchQuestions();
-  //   fetchSpecializations();
-  //   fetchSkills();
-  // }, []);
-
-  // useEffect(() => {
-  //   const fQuestions = questions.filter((que) =>
-  //     que.title.toLowerCase().includes(value.toLowerCase()),
-  //   );
-  //   setFilteredQuestions(fQuestions);
-  // }, [value]);
+  const changePage = (page) => {
+    setPage(page);
+  };
 
   return (
     <>
       <main className={classes.main}>
         <div className={classes.wrapperMain}>
-          <Section questions={filteredQuestions}></Section>
+          <Section
+            page={page}
+            changePage={changePage}
+            totalPages={totalPages}
+            error={error}
+            isLoading={isLoading}
+            questions={filteredQuestions}></Section>
           <Aside
             value={value}
             setValue={setValue}

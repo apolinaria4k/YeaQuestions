@@ -1,5 +1,5 @@
 .buttonArrow {
-  background-image: url('../../../public/arrowDown.svg');
+  background-image: url('/arrowDown.svg');
   width: 24px;
   height: 12px;
   background-repeat: no-repeat;

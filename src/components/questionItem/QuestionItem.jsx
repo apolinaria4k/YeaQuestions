@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ButtonArrowDown from '../ButtonArrowDown/ButtonArrowDown';
+import ButtonArrowDown from '../UI/ButtonArrowDown/ButtonArrowDown';
 import AnswerInItem from '../AnswerInItem/AnswerInItem';
 import classes from './QuestionItem.module.css';
 

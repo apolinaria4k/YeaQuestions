@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default class QuestionService {
-  static async getAllQuestions(limit = 10, page = 1) {
+  static async getAllQuestions(page = 1, limit = 10) {
     const response = await axios.get('https://api.yeatwork.ru/questions/public-questions', {
       params: {
         limit: limit,

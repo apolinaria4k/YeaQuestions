@@ -1,7 +1,8 @@
 import QuestionItem from '../questionItem/QuestionItem';
+import Pagination from '../UI/Pagination/Pagination';
 import classes from './Section.module.css';
 
-export default function Section({ questions }) {
+export default function Section({ isLoading, error, questions, page, totalPages, changePage }) {
   return (
     <section className={classes.section}>
       <div className={classes.wrapper}>
@@ -21,11 +22,20 @@ export default function Section({ questions }) {
         </svg>
       </div>
 
-      <ul className={classes.questionList}>
-        {questions.map((item) => (
-          <QuestionItem key={item.id} {...item} />
-        ))}
-      </ul>
+      {isLoading ? (
+        <h2 className={classes.title}>Загрузка...</h2>
+      ) : error ? (
+        <h2 className={classes.title}>{error}</h2>
+      ) : (
+        <>
+          <ul className={classes.questionList}>
+            {questions.map((item) => (
+              <QuestionItem key={item.id} {...item} />
+            ))}
+          </ul>
+          <Pagination page={page} changePage={changePage} totalPages={totalPages} />
+        </>
+      )}
     </section>
   );
 }

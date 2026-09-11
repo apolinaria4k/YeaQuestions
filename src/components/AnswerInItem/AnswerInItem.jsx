@@ -1,5 +1,5 @@
 import parse from 'html-react-parser';
-import Characteristic from '../characteristic/Characteristic';
+import Characteristic from '../UI/characteristic/Characteristic';
 import classes from './AnswerInItem.module.css';
 
 export default function AnswerInItem({ rate, complexity, shortAnswer }) {

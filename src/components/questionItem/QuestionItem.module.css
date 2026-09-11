@@ -17,6 +17,7 @@
 .text {
   position: relative;
   padding-left: 24px;
+  padding-right: 30px;
 }
 
 .text::before {
