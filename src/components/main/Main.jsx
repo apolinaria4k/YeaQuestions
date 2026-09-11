@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import QuestionService from '../../API/QuestionService';
 import { useFetching } from '../../hooks/useFetching';
+import { useQuestions } from '../../hooks/useQuestions';
 import Aside from '../aside/Aside';
 import Section from '../section/Section';
 import { getTotalPages } from '../utils/pages';
 import classes from './Main.module.css';
-import { useQuestions } from '../../hooks/useQuestions';
 
 export default function Main() {
   const [questions, setQuestions] = useState([]);
@@ -15,13 +15,14 @@ export default function Main() {
   const [totalSpec, setTotalSpec] = useState(10);
   const [skills, setSkills] = useState([]);
   const [totalSkills, setTotalSkills] = useState(10);
-  const [value, setValue] = useState('');
-  const filteredQuestions = useQuestions(questions, value);
+  const [filter, setFilter] = useState({ value: '', specializations: [] });
+  // const filteredQuestions = useQuestions(questions, filter.value, filter.specializations);
 
-  const [fetchQuestions, isLoading, error] = useFetching(async (page) => {
-    const response = await QuestionService.getAllQuestions(page);
+  const [fetchQuestions, isLoading, error] = useFetching(async (page, title, specializationIds) => {
+    const response = await QuestionService.getAllQuestions(page, title, specializationIds);
     setQuestions(response.data.data);
     const totalCount = response.data.total;
+    console.log(response.data);
     setTotalPages(getTotalPages(totalCount));
   });
 
@@ -40,16 +41,33 @@ export default function Main() {
   });
 
   useEffect(() => {
-    fetchQuestions(page);
-  }, [page]);
+    fetchQuestions(page, filter.value, filter.specializations);
+  }, [page, filter]);
 
   useEffect(() => {
     fetchSpecializations();
     fetchSkills();
   }, []);
 
+  useEffect(() => {
+    console.log(filter.specializations);
+  }, [filter.specializations]);
+
   const changePage = (page) => {
     setPage(page);
+  };
+
+  const changeSpecialization = (specialization) => {
+    setFilter((prev) => {
+      const exists = prev.specializations.includes(specialization);
+
+      return {
+        ...prev,
+        specializations: exists
+          ? prev.specializations.filter((s) => s !== specialization)
+          : [...prev.specializations, specialization],
+      };
+    });
   };
 
   return (
@@ -62,10 +80,11 @@ export default function Main() {
             totalPages={totalPages}
             error={error}
             isLoading={isLoading}
-            questions={filteredQuestions}></Section>
+            questions={questions}></Section>
           <Aside
-            value={value}
-            setValue={setValue}
+            filter={filter}
+            setValue={setFilter}
+            changeSpecialization={changeSpecialization}
             totalSkills={totalSkills}
             totalSpec={totalSpec}
             specializations={specializations}

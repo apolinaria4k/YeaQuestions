@@ -4,6 +4,7 @@ import Variant from '../UI/Variant/Variant';
 import ButtonLookAll from '../UI/ButtonLookAll/ButtonLookAll';
 
 export default function VariantsBlock({
+  changeSpecialization,
   setSpecializations,
   setSkills,
   title,
@@ -19,7 +20,7 @@ export default function VariantsBlock({
       <MyTitle title={title} />
       <div className={classes.variants}>
         {data.map((item) => (
-          <Variant key={item.id} title={item.title} />
+          <Variant changeSpecialization={changeSpecialization} key={item.id} {...item} />
         ))}
       </div>
       {hasButton && (

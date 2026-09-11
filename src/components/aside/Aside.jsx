@@ -4,8 +4,9 @@ import VariantsBlock from '../VariantsBlock/VariantsBlock';
 import classes from './Aside.module.css';
 
 export default function Aside({
-  value,
+  filter,
   setValue,
+  changeSpecialization,
   specializations,
   setSpecializations,
   skills,
@@ -17,9 +18,10 @@ export default function Aside({
 
   return (
     <aside className={classes.aside}>
-      <MyInput value={value} setValue={setValue}></MyInput>
+      <MyInput filter={filter} setValue={setValue}></MyInput>
       {variants.map((item) => (
         <VariantsBlock
+          changeSpecialization={changeSpecialization}
           setSpecializations={setSpecializations}
           specializations={specializations}
           skills={skills}
