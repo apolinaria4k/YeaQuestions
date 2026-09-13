@@ -26,7 +26,7 @@ export default function Aside({
     { id: 4, title: '9-10', value: [9, 10] },
   ];
   const rates = [1, 2, 3, 4, 5];
-  const statuses = ['Изученные', 'Неизученные', 'Все'];
+  const statuses = ['Все', 'Изученные', 'Неизученные'];
 
   return (
     <aside className={classes.aside}>

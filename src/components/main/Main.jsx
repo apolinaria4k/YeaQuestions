@@ -19,25 +19,25 @@ export default function Main() {
   const [filter, setFilter] = useState({
     value: '',
     specialization: null,
-    skill: null,
-    complexity: [],
-    rate: [],
+    skills: [],
+    complexities: [],
+    rates: [],
   });
   // const filteredQuestions = useQuestions(questions, filter.value, filter.specializations);
 
   const [fetchQuestions, isLoading, error] = useFetching(
-    async (page, title, specialization, skill, complexity, rate) => {
+    async (page, title, specialization, skills, complexities, rates) => {
       const response = await QuestionService.getAllQuestions(
         page,
         title,
         specialization,
-        skill,
-        complexity,
-        rate,
+        skills,
+        complexities,
+        rates,
       );
       setQuestions(response.data.data);
-      const totalCount = response.data.total;
       console.log(response.data);
+      const totalCount = response.data.total;
       setTotalPages(getTotalPages(totalCount));
     },
   );
@@ -61,9 +61,9 @@ export default function Main() {
       page,
       filter.value,
       filter.specialization,
-      filter.skill,
-      filter.complexity,
-      filter.rate,
+      filter.skills,
+      filter.complexities,
+      filter.rates,
     );
   }, [page, filter]);
 
@@ -73,7 +73,7 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    console.log(filter.rate);
+    console.log(filter.rates);
   }, [filter]);
 
   const changePage = (page) => {
@@ -81,19 +81,37 @@ export default function Main() {
   };
 
   const changeSpecialization = (specialization) => {
-    setFilter((prev) => ({ ...prev, specialization: specialization }));
+    filter.specialization === specialization
+      ? setFilter((prev) => ({ ...prev, specialization: null }))
+      : setFilter((prev) => ({ ...prev, specialization: specialization }));
   };
 
   const changeSkill = (skill) => {
-    setFilter((prev) => ({ ...prev, skill: skill }));
+    if (filter.skills.includes(skill)) {
+      let filteredSkills = filter.skills.filter((s) => s !== skill);
+      setFilter((prev) => ({ ...prev, skills: filteredSkills }));
+    } else {
+      setFilter((prev) => ({ ...prev, skills: [...prev.skills, skill] }));
+    }
   };
 
   const changeComplexity = (complexity) => {
-    setFilter((prev) => ({ ...prev, complexity: complexity }));
+    let matches = filter.complexities.filter((item) => complexity.includes(item));
+    if (matches.length) {
+      let filteredComplexity = filter.complexities.filter((item) => !complexity.includes(item));
+      setFilter((prev) => ({ ...prev, complexities: filteredComplexity }));
+    } else {
+      setFilter((prev) => ({ ...prev, complexities: [...prev.complexities, ...complexity] }));
+    }
   };
 
   const changeRate = (rate) => {
-    setFilter((prev) => ({ ...prev, rate: rate }));
+    if (filter.rates.includes(rate)) {
+      let filteredRates = filter.rates.filter((s) => s !== rate);
+      setFilter((prev) => ({ ...prev, rates: filteredRates }));
+    } else {
+      setFilter((prev) => ({ ...prev, rates: [...prev.rates, rate] }));
+    }
   };
 
   return (

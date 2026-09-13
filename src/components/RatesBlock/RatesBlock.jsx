@@ -1,26 +1,14 @@
-import { useState } from 'react';
 import classes from '../aside/Aside.module.css';
 import MyTitle from '../UI/MyTitle/MyTitle';
-import Variant from '../UI/Variant/Variant';
+import SkillAndRate from '../UI/SkillAndRate/SkillAndRate';
 
 export default function RateBlock({ title, data, changeRate }) {
-  const [selectedId, setSelectedId] = useState(null);
-
-  const handleClick = (id) => {
-    changeRate(id);
-    setSelectedId((prev) => (prev === id ? null : id));
-  };
   return (
     <div>
       <MyTitle title={title} />
       <div className={classes.variants}>
         {data.map((item) => (
-          <Variant
-            onClick={() => handleClick(item)}
-            isActive={selectedId === item}
-            key={item}
-            title={item}
-          />
+          <SkillAndRate change={changeRate} id={item} key={item} title={item} />
         ))}
       </div>
     </div>

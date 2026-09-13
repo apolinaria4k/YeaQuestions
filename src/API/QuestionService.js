@@ -5,24 +5,28 @@ export default class QuestionService {
     page = 1,
     title,
     specializationId,
-    skills,
-    complexity = [],
-    rate = [],
+    skills = [],
+    complexities = [],
+    rates = [],
   ) {
     let baseParams = {
       page,
       title,
       specializationId,
       skills,
-      rate,
+      rates,
     };
 
-    if (complexity.length) {
-      baseParams = { ...baseParams, complexity: complexity.join(',') };
+    if (complexities.length) {
+      baseParams = { ...baseParams, complexity: complexities.join(',') };
     }
 
-    if (rate.length) {
-      baseParams = { ...baseParams, rate: rate.join(',') };
+    if (rates.length) {
+      baseParams = { ...baseParams, rate: rates.join(',') };
+    }
+
+    if (skills.length) {
+      baseParams = { ...baseParams, skills: skills.join(',') };
     }
 
     const response = await axios.get('https://api.yeatwork.ru/questions/public-questions', {

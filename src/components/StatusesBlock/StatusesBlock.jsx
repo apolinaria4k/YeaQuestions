@@ -1,26 +1,14 @@
 import classes from '../aside/Aside.module.css';
 import MyTitle from '../UI/MyTitle/MyTitle';
-import Variant from '../UI/Variant/Variant';
-import { useState } from 'react';
+import Status from '../UI/Status/Status';
 
 export default function StatusesBlock({ title, data }) {
-  const [selectedId, setSelectedId] = useState(null);
-
-  const handleClick = (id) => {
-    setSelectedId((prev) => (prev === id ? null : id));
-  };
-
   return (
     <div>
       <MyTitle title={title} />
       <div className={classes.variants}>
-        {data.map((item) => (
-          <Variant
-            onClick={() => handleClick(item)}
-            isActive={selectedId === item}
-            key={item}
-            title={item}
-          />
+        {data.map((item, index) => (
+          <Status key={item} id={index} title={item} />
         ))}
       </div>
     </div>

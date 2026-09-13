@@ -4,7 +4,7 @@ import { useFetching } from '../../hooks/useFetching';
 import classes from '../aside/Aside.module.css';
 import ButtonLookAll from '../UI/ButtonLookAll/ButtonLookAll';
 import MyTitle from '../UI/MyTitle/MyTitle';
-import Variant from '../UI/Variant/Variant';
+import Variant from '../UI/Specialization/Specialization';
 
 export default function SpecializationBlock({
   title,
