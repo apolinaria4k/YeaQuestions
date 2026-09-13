@@ -4,14 +4,17 @@ import { useFetching } from '../../hooks/useFetching';
 import classes from '../aside/Aside.module.css';
 import ButtonLookAll from '../UI/ButtonLookAll/ButtonLookAll';
 import MyTitle from '../UI/MyTitle/MyTitle';
-import Skill from '../UI/SkillAndRate/SkillAndRate';
+import SkillAndRate from '../UI/SkillAndRate/SkillAndRate';
 
 export default function SkillsBlock({ title, data, totalSkills, setSkills, changeSkill }) {
   const [isLookAll, setIsLookAll] = useState(false);
 
   const [fetchSkills] = useFetching(async () => {
     const response = await QuestionService.getAllSkills(isLookAll ? undefined : totalSkills);
-    setSkills(response.data.data);
+    setSkills((prev) => ({
+      ...prev,
+      skills: response.data.data,
+    }));
   });
 
   const lookAllClick = () => {
@@ -24,7 +27,7 @@ export default function SkillsBlock({ title, data, totalSkills, setSkills, chang
       <MyTitle title={title} />
       <div className={classes.variants}>
         {data.map((item) => (
-          <Skill change={changeSkill} key={item.id} title={item.title} id={item.id} />
+          <SkillAndRate change={changeSkill} key={item.id} title={item.title} id={item.id} />
         ))}
       </div>
       <ButtonLookAll onClick={() => lookAllClick()} isLookAll={isLookAll} />

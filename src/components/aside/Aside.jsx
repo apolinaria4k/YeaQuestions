@@ -8,15 +8,13 @@ import classes from './Aside.module.css';
 
 export default function Aside({
   filter,
-  setValue,
+  changeValue,
   changeSpecialization,
   changeSkill,
   changeComplexity,
   changeRate,
-  specializations,
-  setSpecializations,
-  skills,
-  setSkills,
+  skillsAndSpec,
+  setSkillsAndSpec,
   totals,
 }) {
   const complexities = [
@@ -30,19 +28,19 @@ export default function Aside({
 
   return (
     <aside className={classes.aside}>
-      <MyInput filter={filter} setValue={setValue}></MyInput>
+      <MyInput filter={filter} changeValue={changeValue}></MyInput>
 
       <SpecializationBlock
         title="Специализация"
-        data={specializations}
-        setSpecializations={setSpecializations}
+        data={skillsAndSpec.specializations}
+        setSpecializations={setSkillsAndSpec}
         totalSpec={totals.totalSpec}
         changeSpecialization={changeSpecialization}
       />
       <SkillsBlock
         title="Навыки"
-        data={skills}
-        setSkills={setSkills}
+        data={skillsAndSpec.skills}
+        setSkills={setSkillsAndSpec}
         totalSkills={totals.totalSkills}
         changeSkill={changeSkill}
       />

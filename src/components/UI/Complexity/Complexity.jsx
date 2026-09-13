@@ -7,7 +7,6 @@ export default function Complexity({ title, id, change }) {
   const handleClick = (e) => {
     setIsActive((prev) => !prev);
     change(e.target.id.split(','));
-    console.log(e.target.id.split(','));
   };
 
   return (

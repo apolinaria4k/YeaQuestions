@@ -1,6 +1,6 @@
 import classes from './MyInput.module.css';
 
-export default function MyInput({ filter, setValue }) {
+export default function MyInput({ filter, changeValue }) {
   return (
     <div className={classes.inputWrapper}>
       <svg
@@ -17,7 +17,7 @@ export default function MyInput({ filter, setValue }) {
       </svg>
       <input
         value={filter.value}
-        onChange={(e) => setValue({ ...filter, value: e.target.value })}
+        onChange={(e) => changeValue(e.target.value)}
         className={classes.input}
         placeholder="Введите запрос..."
       />
