@@ -1,4 +1,5 @@
 import QuestionItem from '../questionItem/QuestionItem';
+import Skeleton from '../Skeleton/Skeleton';
 import Pagination from '../UI/Pagination/Pagination';
 import classes from './Section.module.css';
 
@@ -23,8 +24,9 @@ export default function Section({ isLoading, error, questions, page, totalPages,
       </div>
 
       {isLoading ? (
-        <h2 className={classes.title}>Загрузка...</h2>
-      ) : error ? (
+        <Skeleton />
+      ) : // <h2 className={classes.title}>Загрузка...</h2>
+      error ? (
         <h2 className={classes.title}>{error}</h2>
       ) : (
         <>
