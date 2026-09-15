@@ -12,12 +12,14 @@ export default function Section({
   handleClickPage,
   handleNextPage,
   handlePreviousPage,
+  setIsVisible,
 }) {
   return (
     <section className={classes.section}>
       <div className={classes.wrapper}>
         <h2 className={classes.title}>Вопросы</h2>
         <svg
+          onClick={() => setIsVisible(true)}
           className={classes.svgButton}
           width="36"
           height="36"
@@ -36,6 +38,8 @@ export default function Section({
         <Skeleton />
       ) : error ? (
         <h2 className={classes.title}>{error}</h2>
+      ) : !questions.length ? (
+        <h2 className={classes.title}>Вопросов с заданными параметрами не найдено</h2>
       ) : (
         <>
           <ul className={classes.questionList}>

@@ -4,16 +4,16 @@ import { useState } from 'react';
 export default function SkillAndRate({ title, id, change }) {
   const [isActive, setIsActive] = useState(false);
 
-  const handleClick = (e) => {
+  const handleClick = (id) => {
     setIsActive((prev) => !prev);
-    change(e.target.id);
+    change(id);
   };
 
   return (
     <div>
       <button
         id={id}
-        onClick={handleClick}
+        onClick={() => handleClick(id)}
         className={isActive ? classes.activeButton : classes.button}>
         {title}
       </button>

@@ -8,36 +8,34 @@ import classes from './Main.module.css';
 import filterReducer from '../utils/filterReducer';
 
 export default function Main() {
+  const [isVisible, setIsVisible] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [skillsAndSpec, setSkillsAndSpec] = useState({ skills: [], specializations: [] });
-  const [totals, setTotals] = useState({ totalSpec: 10, totalSkills: 10 });
+  const [totals, setTotals] = useState({ totalSpec: 5, totalSkills: 8 });
   const initialFilter = {
     value: '',
     specialization: null,
     skills: [],
-    complexities: [],
-    rates: [],
+    complexity: [],
+    rate: [],
   };
   const [filter, dispatch] = useReducer(filterReducer, initialFilter);
 
-  const [fetchQuestions, isLoading, error] = useFetching(
-    async (page, title, specialization, skills, complexities, rates) => {
-      const response = await QuestionService.getAllQuestions(
-        page,
-        title,
-        specialization,
-        skills,
-        complexities,
-        rates,
-      );
-      setQuestions(response.data.data);
-      const totalCount = response.data.total;
-      console.log(response.data);
-      setTotalPages(getTotalPages(totalCount));
-    },
-  );
+  const [fetchQuestions, isLoading, error] = useFetching(async (page, filter) => {
+    const response = await QuestionService.getAllQuestions(
+      page,
+      filter.title,
+      filter.specialization,
+      filter.skills,
+      filter.complexity,
+      filter.rate,
+    );
+    setQuestions(response.data.data);
+    const totalCount = response.data.total;
+    setTotalPages(getTotalPages(totalCount));
+  });
 
   const [fetchSpecializations] = useFetching(async () => {
     const response = await QuestionService.getAllSpecializations();
@@ -60,27 +58,8 @@ export default function Main() {
   });
 
   useEffect(() => {
-    setPage(1);
-    fetchQuestions(
-      page,
-      filter.value,
-      filter.specialization,
-      filter.skills,
-      filter.complexities,
-      filter.rates,
-    );
-  }, [filter]);
-
-  useEffect(() => {
-    fetchQuestions(
-      page,
-      filter.value,
-      filter.specialization,
-      filter.skills,
-      filter.complexities,
-      filter.rates,
-    );
-  }, [page]);
+    fetchQuestions(page, filter);
+  }, [filter, page]);
 
   useEffect(() => {
     fetchSpecializations();
@@ -104,6 +83,7 @@ export default function Main() {
   };
 
   const changeValue = (value) => {
+    setPage(1);
     dispatch({
       type: 'value',
       value: value,
@@ -111,6 +91,7 @@ export default function Main() {
   };
 
   const changeSpecialization = (specialization) => {
+    setPage(1);
     dispatch({
       type: 'specialization',
       specialization: specialization,
@@ -118,24 +99,21 @@ export default function Main() {
   };
 
   const changeSkill = (skill) => {
-    if (filter.skills.includes(skill)) {
-      let filteredSkills = filter.skills.filter((s) => s !== skill);
-      dispatch({
-        type: 'skill',
-        skill: filteredSkills,
-      });
-    } else {
-      dispatch({
-        type: 'skill',
-        skill: [...filter.skills, skill],
-      });
-    }
+    setPage(1);
+    const newSkills = filter.skills.includes(skill)
+      ? filter.skills.filter((s) => s !== skill)
+      : [...filter.skills, skill];
+    dispatch({
+      type: 'skill',
+      skill: newSkills,
+    });
   };
 
   const changeComplexity = (complexity) => {
-    let matches = filter.complexities.filter((item) => complexity.includes(item));
+    setPage(1);
+    let matches = filter.complexity.filter((item) => complexity.includes(item));
     if (matches.length) {
-      let filteredComplexity = filter.complexities.filter((item) => !complexity.includes(item));
+      let filteredComplexity = filter.complexity.filter((item) => !complexity.includes(item));
       dispatch({
         type: 'complexity',
         complexity: filteredComplexity,
@@ -143,24 +121,20 @@ export default function Main() {
     } else {
       dispatch({
         type: 'complexity',
-        complexity: [...filter.complexities, ...complexity],
+        complexity: [...filter.complexity, ...complexity],
       });
     }
   };
 
   const changeRate = (rate) => {
-    if (filter.rates.includes(rate)) {
-      let filteredRates = filter.rates.filter((s) => s !== rate);
-      dispatch({
-        type: 'rate',
-        rate: filteredRates,
-      });
-    } else {
-      dispatch({
-        type: 'rate',
-        rate: [...filter.rates, rate],
-      });
-    }
+    setPage(1);
+    const newRates = filter.rate.includes(rate)
+      ? filter.rate.filter((s) => s !== rate)
+      : [...filter.rate, rate];
+    dispatch({
+      type: 'rate',
+      rate: newRates,
+    });
   };
 
   return (
@@ -168,6 +142,7 @@ export default function Main() {
       <main className={classes.main}>
         <div className={classes.wrapperMain}>
           <Section
+            setIsVisible={setIsVisible}
             page={page}
             handleClickPage={handleClickPage}
             handleNextPage={handleNextPage}
@@ -177,6 +152,8 @@ export default function Main() {
             isLoading={isLoading}
             questions={questions}></Section>
           <Aside
+            isVisible={isVisible}
+            setIsVisible={setIsVisible}
             filter={filter}
             changeValue={changeValue}
             changeSpecialization={changeSpecialization}

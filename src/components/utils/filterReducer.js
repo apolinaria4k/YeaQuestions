@@ -10,10 +10,10 @@ export default function filterReducer(filter, action) {
       return { ...filter, skills: action.skill };
     }
     case 'complexity': {
-      return { ...filter, complexities: action.complexity };
+      return { ...filter, complexity: action.complexity };
     }
     case 'rate': {
-      return { ...filter, rates: action.rate };
+      return { ...filter, rate: action.rate };
     }
 
     default: {

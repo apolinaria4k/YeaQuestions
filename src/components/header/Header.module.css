@@ -24,6 +24,7 @@
   display: none;
   width: 130px;
   text-align: left;
+  position: relative;
 }
 
 .prepareButton::after {
@@ -68,9 +69,17 @@ button {
   border-radius: 12px;
 }
 
+.navListWrapper {
+  position: relative;
+}
+
 .enterButton:hover,
 .signUpButton:hover {
   cursor: pointer;
+}
+
+.miniLogo {
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -92,10 +101,6 @@ button {
     cursor: pointer;
   }
 
-  .navListWrapper {
-    position: relative;
-  }
-
   .prepareButton {
     display: flex;
   }
@@ -103,8 +108,22 @@ button {
   .prepareButton:hover {
     cursor: pointer;
   }
+}
 
-  /* .prepareButton:hover + .navList {
+@media (max-width: 360px) {
+  .header {
+    margin-bottom: 24px;
+  }
+  .wrapperHeader {
+    padding: 15px 30px;
+  }
+  .buttons {
+    display: none;
+  }
+  .maxLogo {
+    display: none;
+  }
+  .miniLogo {
     display: flex;
-  } */
+  }
 }

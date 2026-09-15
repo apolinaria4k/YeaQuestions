@@ -12,9 +12,10 @@ export default function SpecializationBlock({
   setSpecializations,
   totalSpec,
   changeSpecialization,
+  selectedId,
 }) {
   const [isLookAll, setIsLookAll] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
+  // const [selectedId, setSelectedId] = useState(null);
 
   const [fetchSpecializations] = useFetching(async () => {
     const response = await QuestionService.getAllSpecializations(isLookAll ? undefined : totalSpec);
@@ -30,9 +31,9 @@ export default function SpecializationBlock({
   };
 
   const handleClick = (id) => {
-    setSelectedId((prev) => (prev === id ? null : id));
-    const specialization = id === selectedId ? null : id;
-    changeSpecialization(specialization);
+    // setSelectedId((prev) => (prev === id ? null : id));
+    const newSpecialization = id === selectedId ? null : id;
+    changeSpecialization(newSpecialization);
   };
 
   return (

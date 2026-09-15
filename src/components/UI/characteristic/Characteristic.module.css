@@ -16,3 +16,9 @@
   padding: 2px 4px;
   background-color: #6a0bff;
 }
+
+@media (max-width: 360px) {
+  .wrapper {
+    font-size: 12px;
+  }
+}

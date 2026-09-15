@@ -17,7 +17,7 @@ export default function Footer() {
         <div className={classes.additionalInfo}>
           <div className={classes.copyright}>
             <p className={classes.copyrightText}>© 2024 YeaHub</p>
-            <a className={classes.copyrightLink} href="">
+            <a className={classes.copyrightLink} href="#">
               Документы
             </a>
           </div>

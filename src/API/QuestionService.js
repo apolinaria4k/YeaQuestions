@@ -10,39 +10,35 @@ export default class QuestionService {
     title,
     specializationId,
     skills = [],
-    complexities = [],
-    rates = [],
+    complexity = [],
+    rate = [],
   ) {
-    let baseParams = {
+    const params = {
       page,
       title,
       specializationId,
-      skills,
-      rates,
     };
 
-    if (complexities.length) {
-      baseParams = { ...baseParams, complexity: complexities.join(',') };
+    if (complexity.length) {
+      params.complexity = complexity.join(',');
     }
 
-    if (rates.length) {
-      baseParams = { ...baseParams, rate: rates.join(',') };
+    if (rate.length) {
+      params.rate = rate.join(',');
     }
 
     if (skills.length) {
-      baseParams = { ...baseParams, skills: skills.join(',') };
+      params.skills = skills.join(',');
     }
 
     const response = await axios.get(QUESTIONS_URL, {
-      params: {
-        ...baseParams,
-      },
+      params,
     });
 
     return response;
   }
 
-  static async getAllSpecializations(limit = 10) {
+  static async getAllSpecializations(limit = 5) {
     const response = await axios.get(SPECIALIZATIONS_URL, {
       params: {
         limit,
@@ -52,7 +48,7 @@ export default class QuestionService {
     return response;
   }
 
-  static async getAllSkills(limit = 10) {
+  static async getAllSkills(limit = 8) {
     const response = await axios.get(SKILLS_URL, {
       params: {
         limit,

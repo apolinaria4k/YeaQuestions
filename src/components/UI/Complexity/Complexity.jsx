@@ -1,19 +1,18 @@
 import classes from '../Specialization/Specialization.module.css';
 import { useState } from 'react';
 
-export default function Complexity({ title, id, change }) {
+export default function Complexity({ title, value, change }) {
   const [isActive, setIsActive] = useState(false);
 
-  const handleClick = (e) => {
+  const handleClick = (value) => {
     setIsActive((prev) => !prev);
-    change(e.target.id.split(','));
+    change(value);
   };
 
   return (
     <div>
       <button
-        id={id}
-        onClick={handleClick}
+        onClick={() => handleClick(value)}
         className={isActive ? classes.activeButton : classes.button}>
         {title}
       </button>

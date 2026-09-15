@@ -7,31 +7,35 @@ export const usePagination = (currentPage, totalPages) => {
     const rangeWithDots = [];
     let last;
 
-    range.push(1);
+    if (totalPages === 1) {
+      rangeWithDots.push(1);
+    } else {
+      range.push(1);
 
-    for (let i = currentPage - delta; i <= currentPage + delta; i++) {
-      if (i < totalPages && i > 1) {
-        range.push(i);
-      }
-    }
-
-    range.push(totalPages);
-
-    for (let i of range) {
-      if (last) {
-        if (i - last === 2) {
-          rangeWithDots.push(last + 1);
-        } else if (i - last !== 1) {
-          rangeWithDots.push('...');
+      for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+        if (i < totalPages && i > 1) {
+          range.push(i);
         }
       }
 
-      rangeWithDots.push(i);
-      last = i;
+      range.push(totalPages);
+
+      for (let i of range) {
+        if (last) {
+          if (i - last === 2) {
+            rangeWithDots.push(last + 1);
+          } else if (i - last !== 1) {
+            rangeWithDots.push('...');
+          }
+        }
+
+        rangeWithDots.push(i);
+        last = i;
+      }
     }
 
     return rangeWithDots;
-  }, [totalPages]);
+  }, [totalPages, currentPage]);
 
   return pagesArray;
 };

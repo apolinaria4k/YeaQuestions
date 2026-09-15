@@ -1,5 +1,5 @@
 .section {
-  width: 804px;
+  max-width: 804px;
   border-radius: 24px;
   padding: 24px 20px 40px;
   background-color: #fff;
@@ -35,5 +35,15 @@
 @media (max-width: 768px) {
   .svgButton {
     display: flex;
+  }
+
+  .svgButton:hover {
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 360px) {
+  .title {
+    font-size: 20px;
   }
 }
