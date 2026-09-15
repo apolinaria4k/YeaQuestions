@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+const QUESTIONS_URL = import.meta.env.VITE_QUESTIONS_API_URL;
+const SPECIALIZATIONS_URL = import.meta.env.VITE_SPECIALIZATIONS_API_URL;
+const SKILLS_URL = import.meta.env.VITE_SKILLS_API_URL;
+
 export default class QuestionService {
   static async getAllQuestions(
     page = 1,
@@ -29,7 +33,7 @@ export default class QuestionService {
       baseParams = { ...baseParams, skills: skills.join(',') };
     }
 
-    const response = await axios.get('https://api.yeatwork.ru/questions/public-questions', {
+    const response = await axios.get(QUESTIONS_URL, {
       params: {
         ...baseParams,
       },
@@ -39,9 +43,9 @@ export default class QuestionService {
   }
 
   static async getAllSpecializations(limit = 10) {
-    const response = await axios.get('https://api.yeatwork.ru/specializations', {
+    const response = await axios.get(SPECIALIZATIONS_URL, {
       params: {
-        limit: limit,
+        limit,
       },
     });
 
@@ -49,9 +53,9 @@ export default class QuestionService {
   }
 
   static async getAllSkills(limit = 10) {
-    const response = await axios.get('https://api.yeatwork.ru/skills', {
+    const response = await axios.get(SKILLS_URL, {
       params: {
-        limit: limit,
+        limit,
       },
     });
 

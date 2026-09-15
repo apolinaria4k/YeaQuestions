@@ -60,6 +60,7 @@ export default function Main() {
   });
 
   useEffect(() => {
+    setPage(1);
     fetchQuestions(
       page,
       filter.value,
@@ -68,15 +69,38 @@ export default function Main() {
       filter.complexities,
       filter.rates,
     );
-  }, [page, filter]);
+  }, [filter]);
+
+  useEffect(() => {
+    fetchQuestions(
+      page,
+      filter.value,
+      filter.specialization,
+      filter.skills,
+      filter.complexities,
+      filter.rates,
+    );
+  }, [page]);
 
   useEffect(() => {
     fetchSpecializations();
     fetchSkills();
   }, []);
 
-  const changePage = (page) => {
+  const handleClickPage = (page) => {
     setPage(page);
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
   };
 
   const changeValue = (value) => {
@@ -145,7 +169,9 @@ export default function Main() {
         <div className={classes.wrapperMain}>
           <Section
             page={page}
-            changePage={changePage}
+            handleClickPage={handleClickPage}
+            handleNextPage={handleNextPage}
+            handlePreviousPage={handlePreviousPage}
             totalPages={totalPages}
             error={error}
             isLoading={isLoading}

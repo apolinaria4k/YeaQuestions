@@ -26,15 +26,28 @@
   cursor: pointer;
 }
 
+.page:disabled {
+  background-color: transparent;
+  color: #acabab;
+}
+
+.button {
+  height: 28px;
+}
+
+.button:disabled,
+.page:disabled {
+  cursor: default;
+}
+
+.button:disabled rect {
+  stroke: #474747;
+}
+
+.button:disabled path {
+  fill: #474747;
+}
+
 .button:hover {
   cursor: pointer;
-}
-
-.button:hover rect {
-  stroke: #6a0bff;
-  /* fill: #6a0bff; */
-}
-
-.button:hover path {
-  fill: #6a0bff;
 }

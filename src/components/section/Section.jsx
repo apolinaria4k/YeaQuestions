@@ -3,7 +3,16 @@ import Skeleton from '../Skeleton/Skeleton';
 import Pagination from '../UI/Pagination/Pagination';
 import classes from './Section.module.css';
 
-export default function Section({ isLoading, error, questions, page, totalPages, changePage }) {
+export default function Section({
+  isLoading,
+  error,
+  questions,
+  page,
+  totalPages,
+  handleClickPage,
+  handleNextPage,
+  handlePreviousPage,
+}) {
   return (
     <section className={classes.section}>
       <div className={classes.wrapper}>
@@ -25,8 +34,7 @@ export default function Section({ isLoading, error, questions, page, totalPages,
 
       {isLoading ? (
         <Skeleton />
-      ) : // <h2 className={classes.title}>Загрузка...</h2>
-      error ? (
+      ) : error ? (
         <h2 className={classes.title}>{error}</h2>
       ) : (
         <>
@@ -35,7 +43,13 @@ export default function Section({ isLoading, error, questions, page, totalPages,
               <QuestionItem key={item.id} {...item} />
             ))}
           </ul>
-          <Pagination page={page} changePage={changePage} totalPages={totalPages} />
+          <Pagination
+            page={page}
+            handleClickPage={handleClickPage}
+            handleNextPage={handleNextPage}
+            handlePreviousPage={handlePreviousPage}
+            totalPages={totalPages}
+          />
         </>
       )}
     </section>
