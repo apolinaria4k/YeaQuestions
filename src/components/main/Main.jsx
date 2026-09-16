@@ -6,6 +6,7 @@ import Section from '../section/Section';
 import { getTotalPages } from '../utils/pages';
 import classes from './Main.module.css';
 import filterReducer from '../utils/filterReducer';
+import { useDebounce } from '../../hooks/useDebounce';
 
 export default function Main() {
   const [isVisible, setIsVisible] = useState(false);
@@ -22,20 +23,24 @@ export default function Main() {
     rate: [],
   };
   const [filter, dispatch] = useReducer(filterReducer, initialFilter);
+  const debouncedValue = useDebounce(filter.value, 400);
 
-  const [fetchQuestions, isLoading, error] = useFetching(async (page, filter) => {
-    const response = await QuestionService.getAllQuestions(
-      page,
-      filter.title,
-      filter.specialization,
-      filter.skills,
-      filter.complexity,
-      filter.rate,
-    );
-    setQuestions(response.data.data);
-    const totalCount = response.data.total;
-    setTotalPages(getTotalPages(totalCount));
-  });
+  const [fetchQuestions, isLoading, error] = useFetching(
+    async (page, title, specialization, skills, complexity, rate, signal) => {
+      const response = await QuestionService.getAllQuestions(
+        page,
+        title,
+        specialization,
+        skills,
+        complexity,
+        rate,
+        signal,
+      );
+      setQuestions(response.data.data);
+      const totalCount = response.data.total;
+      setTotalPages(getTotalPages(totalCount));
+    },
+  );
 
   const [fetchSpecializations] = useFetching(async () => {
     const response = await QuestionService.getAllSpecializations();
@@ -58,8 +63,22 @@ export default function Main() {
   });
 
   useEffect(() => {
-    fetchQuestions(page, filter);
-  }, [filter, page]);
+    const controller = new AbortController();
+
+    fetchQuestions(
+      page,
+      debouncedValue,
+      filter.specialization,
+      filter.skills,
+      filter.complexity,
+      filter.rate,
+      controller.signal,
+    );
+
+    return () => {
+      controller.abort();
+    };
+  }, [page, debouncedValue, filter.specialization, filter.skills, filter.complexity, filter.rate]);
 
   useEffect(() => {
     fetchSpecializations();
@@ -82,44 +101,45 @@ export default function Main() {
     }
   };
 
-  const changeValue = (value) => {
+  const updateFilter = (action) => {
     setPage(1);
-    dispatch({
+    dispatch(action);
+  };
+
+  const changeValue = (value) => {
+    updateFilter({
       type: 'value',
       value: value,
     });
   };
 
   const changeSpecialization = (specialization) => {
-    setPage(1);
-    dispatch({
+    updateFilter({
       type: 'specialization',
       specialization: specialization,
     });
   };
 
   const changeSkill = (skill) => {
-    setPage(1);
     const newSkills = filter.skills.includes(skill)
       ? filter.skills.filter((s) => s !== skill)
       : [...filter.skills, skill];
-    dispatch({
+    updateFilter({
       type: 'skill',
       skill: newSkills,
     });
   };
 
   const changeComplexity = (complexity) => {
-    setPage(1);
     let matches = filter.complexity.filter((item) => complexity.includes(item));
     if (matches.length) {
       let filteredComplexity = filter.complexity.filter((item) => !complexity.includes(item));
-      dispatch({
+      updateFilter({
         type: 'complexity',
         complexity: filteredComplexity,
       });
     } else {
-      dispatch({
+      updateFilter({
         type: 'complexity',
         complexity: [...filter.complexity, ...complexity],
       });
@@ -127,11 +147,10 @@ export default function Main() {
   };
 
   const changeRate = (rate) => {
-    setPage(1);
     const newRates = filter.rate.includes(rate)
       ? filter.rate.filter((s) => s !== rate)
       : [...filter.rate, rate];
-    dispatch({
+    updateFilter({
       type: 'rate',
       rate: newRates,
     });

@@ -21,3 +21,7 @@
   line-height: 120%;
   border-color: #5509cc;
 }
+
+.activeButton {
+  cursor: pointer;
+}

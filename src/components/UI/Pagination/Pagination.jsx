@@ -33,7 +33,7 @@ export default function Pagination({
       {pagesArray.map((p, index) => (
         <button
           disabled={p === '...'}
-          onClick={() => handleClickPage(p)}
+          onClick={() => typeof p === 'number' && handleClickPage(p)}
           key={index}
           className={page === p ? `${classes.page} ${classes.active}` : classes.page}>
           {p}

@@ -12,6 +12,7 @@ export default class QuestionService {
     skills = [],
     complexity = [],
     rate = [],
+    signal,
   ) {
     const params = {
       page,
@@ -33,6 +34,7 @@ export default class QuestionService {
 
     const response = await axios.get(QUESTIONS_URL, {
       params,
+      signal,
     });
 
     return response;
