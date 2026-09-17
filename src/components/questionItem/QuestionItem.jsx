@@ -14,7 +14,7 @@ export default function QuestionItem({ title, complexity, shortAnswer, rate }) {
     <li className={classes.item}>
       <div className={classes.wrapper}>
         <p className={classes.text}>{title}</p>
-        <ButtonArrowDown handleClick={handleClick}></ButtonArrowDown>
+        <ButtonArrowDown isVisible={isVisible} handleClick={handleClick}></ButtonArrowDown>
       </div>
       {isVisible && <AnswerInItem rate={rate} complexity={complexity} shortAnswer={shortAnswer} />}
     </li>

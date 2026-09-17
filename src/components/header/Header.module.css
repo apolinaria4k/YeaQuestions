@@ -49,6 +49,10 @@ button {
   background-color: transparent;
 }
 
+.buttonsWrapper {
+  position: relative;
+}
+
 .buttons {
   display: flex;
   gap: 20px;
@@ -89,10 +93,23 @@ button {
   .wrapperHeader {
     padding: 15px 30px;
   }
+  /* .buttons {
+    display: none;
+  } */
+
   .buttons {
     display: none;
+    position: absolute;
+    top: 50%;
+    left: -220px;
+    z-index: 100;
+    border-radius: 12px;
+    transform: translate(0, -50%);
   }
 
+  .loginVisible {
+    display: flex;
+  }
   .burgerMenu {
     display: flex;
   }

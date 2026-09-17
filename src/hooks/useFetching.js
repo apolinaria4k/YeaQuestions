@@ -2,23 +2,26 @@ import { useState } from 'react';
 import axios from 'axios';
 
 export const useFetching = (callback) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState(null);
 
   const fetching = async (...args) => {
+    const signal = args[args.length - 1];
     try {
-      setIsLoading(true);
-      setError('');
+      setStatus('loading');
       await callback(...args);
     } catch (error) {
       if (axios.isCancel(error)) {
         return;
       }
-      setError(error.message);
+      setError(error);
+      setStatus('error');
     } finally {
-      setIsLoading(false);
+      if (!signal?.aborted) {
+        setStatus('success');
+      }
     }
   };
 
-  return [fetching, isLoading, error];
+  return [fetching, status, error];
 };

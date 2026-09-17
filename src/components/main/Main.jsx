@@ -25,7 +25,7 @@ export default function Main() {
   const [filter, dispatch] = useReducer(filterReducer, initialFilter);
   const debouncedValue = useDebounce(filter.value, 400);
 
-  const [fetchQuestions, isLoading, error] = useFetching(
+  const [fetchQuestions, status, error] = useFetching(
     async (page, title, specialization, skills, complexity, rate, signal) => {
       const response = await QuestionService.getAllQuestions(
         page,
@@ -167,8 +167,8 @@ export default function Main() {
             handleNextPage={handleNextPage}
             handlePreviousPage={handlePreviousPage}
             totalPages={totalPages}
+            status={status}
             error={error}
-            isLoading={isLoading}
             questions={questions}></Section>
           <Aside
             isVisible={isVisible}

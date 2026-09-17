@@ -12,9 +12,12 @@ export default function Pagination({
 
   return (
     <div className={classes.paginationWrapper}>
-      <button className={classes.button} disabled={page <= 1}>
+      <button
+        onClick={handlePreviousPage}
+        aria-label="Предыдущая страница"
+        className={classes.button}
+        disabled={page <= 1}>
         <svg
-          onClick={handlePreviousPage}
           width="28"
           height="28"
           viewBox="0 0 28 28"
@@ -40,9 +43,12 @@ export default function Pagination({
         </button>
       ))}
 
-      <button className={classes.button} disabled={page >= totalPages}>
+      <button
+        onClick={handleNextPage}
+        aria-label="Следующая страница"
+        className={classes.button}
+        disabled={page >= totalPages}>
         <svg
-          onClick={handleNextPage}
           width="28"
           height="28"
           viewBox="0 0 28 28"

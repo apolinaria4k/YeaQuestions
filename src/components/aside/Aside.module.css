@@ -41,7 +41,7 @@
     cursor: pointer;
   }
 
-  .aside.visible {
+  .visible {
     display: flex;
   }
 
