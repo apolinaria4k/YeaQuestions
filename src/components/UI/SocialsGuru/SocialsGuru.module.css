@@ -1,0 +1,9 @@
+.linkList {
+  display: flex;
+  gap: 8px;
+}
+
+.link {
+  width: 28px;
+  height: 28px;
+}

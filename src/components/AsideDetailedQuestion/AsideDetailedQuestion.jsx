@@ -1,0 +1,32 @@
+import GuruProfile from '../GuruProfile/GuruProfile';
+import ButtonClose from '../UI/ButtonClose/ButtonClose';
+import KeyWords from '../UI/KeyWords/KeyWords';
+import Levels from '../UI/Levels/Levels';
+import Skills from '../UI/Skills/Skills';
+import classes from './AsideDetailedQuestion.module.css';
+
+export default function AsideDetailedQuestion() {
+  return (
+    <aside className={classes.aside}>
+      <div className={classes.blockWrapper}>
+        <div className={classes.blockInner}>
+          <ButtonClose />
+
+          <Levels />
+          <Skills />
+          <KeyWords />
+
+          <div>
+            <p className={classes.author}>
+              Автор: <span className={classes.authorColor}>Дмитрий Мусиенко</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${classes.blockWrapper} ${classes.border}`}>
+        <GuruProfile></GuruProfile>
+      </div>
+    </aside>
+  );
+}

@@ -1,0 +1,45 @@
+.linksWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 44px;
+}
+
+.link {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 110%;
+  color: #303030;
+  position: relative;
+}
+
+.linkPrev {
+  padding-left: 24px;
+}
+
+.linkNext {
+  padding-right: 24px;
+}
+
+.linkPrev::before {
+  content: '';
+  position: absolute;
+  display: flex;
+  width: 8px;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  height: 16px;
+  background-image: url('/public/arrowLeftGrey.svg');
+}
+
+.linkNext::before {
+  content: '';
+  position: absolute;
+  display: flex;
+  width: 8px;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  height: 16px;
+  background-image: url('/public/arrowRightGrey.svg');
+}

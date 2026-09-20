@@ -10,13 +10,13 @@ export default function SkillAndRate({ title, id, change }) {
   };
 
   return (
-    <div>
+    <>
       <button
         id={id}
         onClick={() => handleClick(id)}
         className={isActive ? classes.activeButton : classes.button}>
         {title}
       </button>
-    </div>
+    </>
   );
 }
