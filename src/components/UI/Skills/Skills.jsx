@@ -3,13 +3,12 @@ import SkillDetailedQuestion from '../SkillDetailedQuestion/SkillDetailedQuestio
 import classes from './Skills.module.css';
 
 export default function Levels({ questionSkills }) {
-  console.log(questionSkills);
   return (
     <div>
       <MyTitle title="Навыки:" />
       <div className={classes.variants}>
         {questionSkills.map((skill) => (
-          <SkillDetailedQuestion key={skill.id} title={skill.title} />
+          <SkillDetailedQuestion key={skill.id} title={skill.title} id={skill.id} />
         ))}
       </div>
     </div>

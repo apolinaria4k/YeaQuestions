@@ -7,8 +7,11 @@ import { getTotalPages } from '../utils/pages';
 import classes from './Main.module.css';
 import filterReducer from '../utils/filterReducer';
 import { useDebounce } from '../../hooks/useDebounce';
+import { useSearchParams } from 'react-router-dom';
 
 export default function Main() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const skillId = searchParams.get('skillId') || null;
   const [isVisible, setIsVisible] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [page, setPage] = useState(1);
@@ -24,6 +27,7 @@ export default function Main() {
   };
   const [filter, dispatch] = useReducer(filterReducer, initialFilter);
   const debouncedValue = useDebounce(filter.value, 400);
+  console.log(skillId);
 
   const [fetchQuestions, status, error] = useFetching(
     async (page, title, specialization, skills, complexity, rate, signal) => {
@@ -157,6 +161,12 @@ export default function Main() {
       rate: newRates,
     });
   };
+
+  useEffect(() => {
+    if (!skillId) return;
+
+    changeSkill(skillId);
+  }, [skillId]);
 
   return (
     <>

@@ -13,7 +13,6 @@ export default function MainDetails() {
 
   const [fetchQuestionData, status] = useFetching(async (questionId) => {
     const response = await QuestionService.getQuestionById(questionId);
-    console.log(response);
     setQuestionData(response.data);
   });
 

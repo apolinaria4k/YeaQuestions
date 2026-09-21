@@ -1,6 +1,9 @@
 import classes from './SkillDetailedQuestion.module.css';
+import { Link } from 'react-router-dom';
 
-export default function SkillDetailedQuestion({ title }) {
+export default function SkillDetailedQuestion({ id, title }) {
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const skill = searchParams.get('skill') || [];
   //   const handleClick = (id) => {
   //     // setIsActive((prev) => !prev);
   //     // change(id);
@@ -8,11 +11,12 @@ export default function SkillDetailedQuestion({ title }) {
 
   return (
     <>
-      <button
+      <Link
+        to={`/?skillId=${id}`}
         // onClick={() => handleClick(id)}
         className={classes.button}>
         {title}
-      </button>
+      </Link>
     </>
   );
 }
