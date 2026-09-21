@@ -1,15 +1,16 @@
 import MyTitle from '../MyTitle/MyTitle';
-import SkillAndRate from '../SkillAndRate/SkillAndRate';
+import SkillDetailedQuestion from '../SkillDetailedQuestion/SkillDetailedQuestion';
 import classes from './Skills.module.css';
 
-export default function Levels() {
+export default function Levels({ questionSkills }) {
+  console.log(questionSkills);
   return (
     <div>
       <MyTitle title="Навыки:" />
       <div className={classes.variants}>
-        <SkillAndRate title={'React'} />
-        <SkillAndRate title={'JavaScript'} />
-        <SkillAndRate title={'Dom'} />
+        {questionSkills.map((skill) => (
+          <SkillDetailedQuestion key={skill.id} title={skill.title} />
+        ))}
       </div>
     </div>
   );

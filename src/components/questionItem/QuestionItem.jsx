@@ -3,7 +3,7 @@ import ButtonArrowDown from '../UI/ButtonArrowDown/ButtonArrowDown';
 import AnswerInItem from '../AnswerInItem/AnswerInItem';
 import classes from './QuestionItem.module.css';
 
-export default function QuestionItem({ title, complexity, shortAnswer, rate }) {
+export default function QuestionItem({ id, title, complexity, shortAnswer, rate }) {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleClick = () => {
@@ -16,7 +16,9 @@ export default function QuestionItem({ title, complexity, shortAnswer, rate }) {
         <p className={classes.text}>{title}</p>
         <ButtonArrowDown isVisible={isVisible} handleClick={handleClick}></ButtonArrowDown>
       </div>
-      {isVisible && <AnswerInItem rate={rate} complexity={complexity} shortAnswer={shortAnswer} />}
+      {isVisible && (
+        <AnswerInItem id={id} rate={rate} complexity={complexity} shortAnswer={shortAnswer} />
+      )}
     </li>
   );
 }

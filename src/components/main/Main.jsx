@@ -37,6 +37,8 @@ export default function Main() {
         signal,
       );
       setQuestions(response.data.data);
+      console.log(response.data);
+
       const totalCount = response.data.total;
       setTotalPages(getTotalPages(totalCount));
     },

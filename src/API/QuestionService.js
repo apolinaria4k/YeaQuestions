@@ -3,6 +3,7 @@ import axios from 'axios';
 const QUESTIONS_URL = import.meta.env.VITE_QUESTIONS_API_URL;
 const SPECIALIZATIONS_URL = import.meta.env.VITE_SPECIALIZATIONS_API_URL;
 const SKILLS_URL = import.meta.env.VITE_SKILLS_API_URL;
+const QUESTION_BY_ID_URL = import.meta.env.VITE_QUESTION_BY_ID_API_URL;
 
 export default class QuestionService {
   static async getAllQuestions(
@@ -54,6 +55,16 @@ export default class QuestionService {
     const response = await axios.get(SKILLS_URL, {
       params: {
         limit,
+      },
+    });
+
+    return response;
+  }
+
+  static async getQuestionById(id) {
+    const response = await axios.get(`${QUESTION_BY_ID_URL}${id}`, {
+      params: {
+        id,
       },
     });
 

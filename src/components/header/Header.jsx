@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navigation from '../nav/Navigation';
 import classes from './Header.module.css';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   const [isPrepareMenuVisible, setIsPrepareMenuVisible] = useState(false);
@@ -17,7 +18,7 @@ export default function Header() {
     <header className={classes.header}>
       <div className={classes.wrapperHeader}>
         <nav className={classes.nav}>
-          <a href="#">
+          <Link to="/">
             <svg
               className={classes.maxLogo}
               width="172"
@@ -151,7 +152,7 @@ export default function Header() {
               />
               <circle cx="20.2742" cy="28.3133" r="0.492968" fill="white" />
             </svg>
-          </a>
+          </Link>
           <div className={classes.navListWrapper}>
             <button onClick={handleClick} className={classes.prepareButton}>
               Подготовка

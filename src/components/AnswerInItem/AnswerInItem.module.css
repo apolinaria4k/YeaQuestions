@@ -17,6 +17,25 @@
   color: #474747;
 }
 
+.linkWrapper {
+  display: flex;
+  justify-content: right;
+}
+
+.link {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 110%;
+  color: #303030;
+}
+.link:hover {
+  color: #6a0bff;
+}
+
+.active {
+  color: #6a0bff;
+}
+
 @media (max-width: 360px) {
   .title {
     font-size: 20px;

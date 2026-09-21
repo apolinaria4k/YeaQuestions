@@ -5,16 +5,16 @@ import Levels from '../UI/Levels/Levels';
 import Skills from '../UI/Skills/Skills';
 import classes from './AsideDetailedQuestion.module.css';
 
-export default function AsideDetailedQuestion() {
+export default function AsideDetailedQuestion({ complexity, rate, questionSkills, keywords }) {
   return (
     <aside className={classes.aside}>
       <div className={classes.blockWrapper}>
         <div className={classes.blockInner}>
           <ButtonClose />
 
-          <Levels />
-          <Skills />
-          <KeyWords />
+          <Levels complexity={complexity} rate={rate} />
+          <Skills questionSkills={questionSkills} />
+          <KeyWords keywords={keywords} />
 
           <div>
             <p className={classes.author}>
@@ -25,7 +25,7 @@ export default function AsideDetailedQuestion() {
       </div>
 
       <div className={`${classes.blockWrapper} ${classes.border}`}>
-        <GuruProfile></GuruProfile>
+        <GuruProfile />
       </div>
     </aside>
   );

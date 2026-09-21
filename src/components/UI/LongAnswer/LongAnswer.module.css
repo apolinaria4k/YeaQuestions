@@ -1,0 +1,101 @@
+.wrapper {
+  max-height: 230px;
+  overflow: hidden;
+  position: relative;
+}
+
+.wrapper .bottom {
+  width: 100%;
+  height: 80px;
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) -25.71%, #ffffff 40.02%);
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.buttonWrapper {
+  position: relative;
+}
+
+.text {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 130%;
+  color: #474747;
+  margin-bottom: 20px;
+}
+
+.preTitle {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 120%;
+  color: #303030;
+  margin-bottom: 20px;
+}
+
+.button {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  color: #303030;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding-right: 24px;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.checker ~ .button::before {
+  content: 'Развернуть';
+}
+
+.checker:checked ~ .button::before {
+  content: 'Свернуть';
+}
+
+.checker:checked ~ .wrapper {
+  max-height: none;
+}
+
+.checker:checked ~ .wrapper .bottom {
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.checker:checked ~ .button::after {
+  content: '';
+  position: absolute;
+  display: flex;
+  width: 14px;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  height: 8px;
+  background-image: url('/public/arrowUp.svg');
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  display: flex;
+  width: 14px;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  height: 8px;
+  background-image: url('/public/arrowDown.svg');
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+.checker {
+  opacity: 0;
+  position: absolute;
+}

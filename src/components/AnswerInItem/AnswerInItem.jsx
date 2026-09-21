@@ -1,9 +1,10 @@
 import parse from 'html-react-parser';
+import { Link } from 'react-router-dom';
 import Characteristic from '../UI/characteristic/Characteristic';
-import classes from './AnswerInItem.module.css';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
+import classes from './AnswerInItem.module.css';
 
-export default function AnswerInItem({ rate, complexity, shortAnswer }) {
+export default function AnswerInItem({ id, rate, complexity, shortAnswer }) {
   return (
     <div className={classes.wrapper}>
       <div className={classes.wrapperCharacter}>
@@ -11,6 +12,11 @@ export default function AnswerInItem({ rate, complexity, shortAnswer }) {
         <Characteristic title="Сложность" value={complexity}></Characteristic>
       </div>
       <div className={classes.textOfAnswer}>{parse(sanitizeHtml(shortAnswer))}</div>
+      <div className={classes.linkWrapper}>
+        <Link to={`/details/${id}`} className={classes.link}>
+          Подробнее
+        </Link>
+      </div>
     </div>
   );
 }
