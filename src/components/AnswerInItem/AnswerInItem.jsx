@@ -1,8 +1,8 @@
 import parse from 'html-react-parser';
-import { Link } from 'react-router-dom';
 import Characteristic from '../UI/characteristic/Characteristic';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
 import classes from './AnswerInItem.module.css';
+import { Link } from 'react-router-dom';
 
 export default function AnswerInItem({ id, rate, complexity, shortAnswer }) {
   return (

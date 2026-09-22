@@ -1,11 +1,35 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import useQuestions from '../../hooks/useQuestions';
 import classes from './NextPreviousButtons.module.css';
-import { Link } from 'react-router-dom';
 
 export default function NextPreviousButtons() {
+  const { questions } = useQuestions();
+  const { questionId } = useParams();
+  console.log(questionId);
+  const navigate = useNavigate();
+
+  const handlePrevClick = () => {
+    const prevQuestionIndex =
+      questions.findIndex((question) => question.id === Number(questionId)) - 1;
+    const prevtQuestionId = questions[prevQuestionIndex].id;
+    navigate(`/questions/${prevtQuestionId}`);
+  };
+
+  const handleNextClick = () => {
+    const nextQuestionIndex =
+      questions.findIndex((question) => question.id === Number(questionId)) + 1;
+    const nextQuestionId = questions[nextQuestionIndex].id;
+    navigate(`/questions/${nextQuestionId}`);
+  };
+
   return (
     <div className={classes.linksWrapper}>
-      <Link className={`${classes.linkPrev} ${classes.link}`}>Предыдущий</Link>
-      <Link className={`${classes.linkNext} ${classes.link}`}>Следующий</Link>
+      <button onClick={handlePrevClick} className={`${classes.linkPrev} ${classes.link}`}>
+        Предыдущий
+      </button>
+      <button onClick={handleNextClick} className={`${classes.linkNext} ${classes.link}`}>
+        Следующий
+      </button>
     </div>
   );
 }

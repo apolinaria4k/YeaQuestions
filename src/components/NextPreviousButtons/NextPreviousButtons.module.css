@@ -12,6 +12,10 @@
   position: relative;
 }
 
+.link:hover {
+  cursor: pointer;
+}
+
 .linkPrev {
   padding-left: 24px;
 }

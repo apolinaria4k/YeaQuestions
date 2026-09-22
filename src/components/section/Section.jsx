@@ -1,9 +1,11 @@
+import useQuestions from '../../hooks/useQuestions';
 import QuestionItem from '../questionItem/QuestionItem';
 import Skeleton from '../Skeleton/Skeleton';
 import Pagination from '../UI/Pagination/Pagination';
 import classes from './Section.module.css';
 
-export default function Section({ status, error, questions, totalPages, setIsVisible }) {
+export default function Section({ status, error, totalPages, setIsVisible }) {
+  const { questions } = useQuestions();
   return (
     <section className={classes.section}>
       <div className={classes.wrapper}>

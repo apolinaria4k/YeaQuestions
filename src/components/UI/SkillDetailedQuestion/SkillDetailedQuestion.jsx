@@ -21,17 +21,9 @@ export default function SkillDetailedQuestion({ id, title }) {
     setSearchParams(next);
   };
 
-  //   const handleClick = (id) => {
-  //     // setIsActive((prev) => !prev);
-  //     // change(id);
-  //   };
-
   return (
     <>
-      <Link
-        to={`/?skills=${id}`}
-        // onClick={() => handleClick(id)}
-        className={classes.button}>
+      <Link to={`/?skills=${id}`} onClick={() => changeSkill(id)} className={classes.button}>
         {title}
       </Link>
     </>

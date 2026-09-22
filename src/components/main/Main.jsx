@@ -3,18 +3,19 @@ import { useSearchParams } from 'react-router-dom';
 import QuestionService from '../../API/QuestionService';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useFetching } from '../../hooks/useFetching';
+import useQuestions from '../../hooks/useQuestions';
 import Aside from '../aside/Aside';
 import Section from '../section/Section';
 import { getTotalPages } from '../utils/pages';
 import classes from './Main.module.css';
 
 export default function Main() {
+  const { setQuestions } = useQuestions();
   const [isVisible, setIsVisible] = useState(false);
-  const [questions, setQuestions] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [skillsAndSpec, setSkillsAndSpec] = useState({ skills: [], specializations: [] });
   const [totals, setTotals] = useState({ totalSpec: 5, totalSkills: 8 });
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
   const value = searchParams.get('value') || '';
   const specialization = Number(searchParams.get('specialization')) || null;
@@ -95,7 +96,7 @@ export default function Main() {
             totalPages={totalPages}
             status={status}
             error={error}
-            questions={questions}></Section>
+          />
           <Aside
             isVisible={isVisible}
             setIsVisible={setIsVisible}
