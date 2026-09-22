@@ -1,6 +1,17 @@
+import { useSearchParams } from 'react-router-dom';
 import classes from './MyInput.module.css';
 
-export default function MyInput({ filter, changeValue }) {
+export default function MyInput() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const value = searchParams.get('value') || '';
+
+  const changeValue = (e) => {
+    const next = new URLSearchParams(searchParams);
+    next.set('value', e.target.value);
+    next.set('page', String(1));
+    setSearchParams(next);
+  };
+
   return (
     <div className={classes.inputWrapper}>
       <svg
@@ -16,8 +27,8 @@ export default function MyInput({ filter, changeValue }) {
         />
       </svg>
       <input
-        value={filter.value}
-        onChange={(e) => changeValue(e.target.value)}
+        value={value}
+        onChange={changeValue}
         className={classes.input}
         placeholder="Введите запрос..."
       />

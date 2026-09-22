@@ -1,33 +1,28 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import QuestionService from '../../API/QuestionService';
+import { useDebounce } from '../../hooks/useDebounce';
 import { useFetching } from '../../hooks/useFetching';
 import Aside from '../aside/Aside';
 import Section from '../section/Section';
 import { getTotalPages } from '../utils/pages';
 import classes from './Main.module.css';
-import filterReducer from '../utils/filterReducer';
-import { useDebounce } from '../../hooks/useDebounce';
-import { useSearchParams } from 'react-router-dom';
 
 export default function Main() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const skillId = searchParams.get('skillId') || null;
   const [isVisible, setIsVisible] = useState(false);
   const [questions, setQuestions] = useState([]);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [skillsAndSpec, setSkillsAndSpec] = useState({ skills: [], specializations: [] });
   const [totals, setTotals] = useState({ totalSpec: 5, totalSkills: 8 });
-  const initialFilter = {
-    value: '',
-    specialization: null,
-    skills: [],
-    complexity: [],
-    rate: [],
-  };
-  const [filter, dispatch] = useReducer(filterReducer, initialFilter);
-  const debouncedValue = useDebounce(filter.value, 400);
-  console.log(skillId);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
+  const value = searchParams.get('value') || '';
+  const specialization = Number(searchParams.get('specialization')) || null;
+  const skills = searchParams.get('skills') || '';
+  const complexity = searchParams.get('complexity') || '';
+  const rate = searchParams.get('rate') || '';
+
+  const debouncedValue = useDebounce(value, 400);
 
   const [fetchQuestions, status, error] = useFetching(
     async (page, title, specialization, skills, complexity, rate, signal) => {
@@ -74,99 +69,22 @@ export default function Main() {
     fetchQuestions(
       page,
       debouncedValue,
-      filter.specialization,
-      filter.skills,
-      filter.complexity,
-      filter.rate,
+      specialization,
+      skills,
+      complexity,
+      rate,
       controller.signal,
     );
 
     return () => {
       controller.abort();
     };
-  }, [page, debouncedValue, filter.specialization, filter.skills, filter.complexity, filter.rate]);
+  }, [page, debouncedValue, specialization, skills, complexity, rate]);
 
   useEffect(() => {
     fetchSpecializations();
     fetchSkills();
   }, []);
-
-  const handleClickPage = (page) => {
-    setPage(page);
-  };
-
-  const handleNextPage = () => {
-    if (page < totalPages) {
-      setPage(page + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  };
-
-  const updateFilter = (action) => {
-    setPage(1);
-    dispatch(action);
-  };
-
-  const changeValue = (value) => {
-    updateFilter({
-      type: 'value',
-      value: value,
-    });
-  };
-
-  const changeSpecialization = (specialization) => {
-    updateFilter({
-      type: 'specialization',
-      specialization: specialization,
-    });
-  };
-
-  const changeSkill = (skill) => {
-    const newSkills = filter.skills.includes(skill)
-      ? filter.skills.filter((s) => s !== skill)
-      : [...filter.skills, skill];
-    updateFilter({
-      type: 'skill',
-      skill: newSkills,
-    });
-  };
-
-  const changeComplexity = (complexity) => {
-    let matches = filter.complexity.filter((item) => complexity.includes(item));
-    if (matches.length) {
-      let filteredComplexity = filter.complexity.filter((item) => !complexity.includes(item));
-      updateFilter({
-        type: 'complexity',
-        complexity: filteredComplexity,
-      });
-    } else {
-      updateFilter({
-        type: 'complexity',
-        complexity: [...filter.complexity, ...complexity],
-      });
-    }
-  };
-
-  const changeRate = (rate) => {
-    const newRates = filter.rate.includes(rate)
-      ? filter.rate.filter((s) => s !== rate)
-      : [...filter.rate, rate];
-    updateFilter({
-      type: 'rate',
-      rate: newRates,
-    });
-  };
-
-  useEffect(() => {
-    if (!skillId) return;
-
-    changeSkill(skillId);
-  }, [skillId]);
 
   return (
     <>
@@ -174,10 +92,6 @@ export default function Main() {
         <div className={classes.wrapperMain}>
           <Section
             setIsVisible={setIsVisible}
-            page={page}
-            handleClickPage={handleClickPage}
-            handleNextPage={handleNextPage}
-            handlePreviousPage={handlePreviousPage}
             totalPages={totalPages}
             status={status}
             error={error}
@@ -185,12 +99,6 @@ export default function Main() {
           <Aside
             isVisible={isVisible}
             setIsVisible={setIsVisible}
-            filter={filter}
-            changeValue={changeValue}
-            changeSpecialization={changeSpecialization}
-            changeSkill={changeSkill}
-            changeComplexity={changeComplexity}
-            changeRate={changeRate}
             totals={totals}
             skillsAndSpec={skillsAndSpec}
             setSkillsAndSpec={setSkillsAndSpec}></Aside>

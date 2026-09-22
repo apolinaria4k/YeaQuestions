@@ -1,8 +1,9 @@
-import classes from './SkillDetailedQuestion.module.css';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import classes from '../Specialization/Specialization.module.css';
 import { useSearchParams } from 'react-router-dom';
 
-export default function SkillDetailedQuestion({ id, title }) {
+export default function Skill({ title, id }) {
+  const [isActive, setIsActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const skills = searchParams.get('skills') || '';
 
@@ -21,19 +22,18 @@ export default function SkillDetailedQuestion({ id, title }) {
     setSearchParams(next);
   };
 
-  //   const handleClick = (id) => {
-  //     // setIsActive((prev) => !prev);
-  //     // change(id);
-  //   };
+  const handleClick = (id) => {
+    setIsActive((prev) => !prev);
+    changeSkill(id);
+  };
 
   return (
     <>
-      <Link
-        to={`/?skills=${id}`}
-        // onClick={() => handleClick(id)}
-        className={classes.button}>
+      <button
+        onClick={() => handleClick(id)}
+        className={isActive ? classes.activeButton : classes.button}>
         {title}
-      </Link>
+      </button>
     </>
   );
 }

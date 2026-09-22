@@ -9,12 +9,6 @@ import ButtonClose from '../UI/ButtonClose/ButtonClose';
 export default function Aside({
   isVisible,
   setIsVisible,
-  filter,
-  changeValue,
-  changeSpecialization,
-  changeSkill,
-  changeComplexity,
-  changeRate,
   skillsAndSpec,
   setSkillsAndSpec,
   totals,
@@ -33,31 +27,24 @@ export default function Aside({
       <ButtonClose setIsVisible={setIsVisible}></ButtonClose>
 
       <div className={classes.innerWrapper}>
-        <MyInput filter={filter} changeValue={changeValue}></MyInput>
+        <MyInput></MyInput>
 
         <SpecializationBlock
           title="Специализация"
           data={skillsAndSpec.specializations}
           setSpecializations={setSkillsAndSpec}
           totalSpec={totals.totalSpec}
-          changeSpecialization={changeSpecialization}
-          selectedId={filter.specialization}
         />
         <SkillsBlock
           title="Навыки"
           data={skillsAndSpec.skills}
           setSkills={setSkillsAndSpec}
           totalSkills={totals.totalSkills}
-          changeSkill={changeSkill}
         />
 
-        <ComplexitiesBlock
-          title="Сложность"
-          data={complexities}
-          changeComplexity={changeComplexity}
-        />
+        <ComplexitiesBlock title="Сложность" data={complexities} />
 
-        <RatesBlock title="Рейтинг" data={rates} changeRate={changeRate} />
+        <RatesBlock title="Рейтинг" data={rates} />
         {/* <StatusesBlock title="Статус" data={statuses}></StatusesBlock> */}
       </div>
     </aside>

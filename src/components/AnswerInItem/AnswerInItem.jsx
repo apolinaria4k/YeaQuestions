@@ -13,7 +13,7 @@ export default function AnswerInItem({ id, rate, complexity, shortAnswer }) {
       </div>
       <div className={classes.textOfAnswer}>{parse(sanitizeHtml(shortAnswer))}</div>
       <div className={classes.linkWrapper}>
-        <Link to={`/details/${id}`} className={classes.link}>
+        <Link to={`/questions/${id}`} className={classes.link}>
           Подробнее
         </Link>
       </div>

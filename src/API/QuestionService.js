@@ -10,9 +10,9 @@ export default class QuestionService {
     page = 1,
     title,
     specializationId,
-    skills = [],
-    complexity = [],
-    rate = [],
+    skills,
+    complexity,
+    rate,
     signal,
   ) {
     const params = {
@@ -22,15 +22,15 @@ export default class QuestionService {
     };
 
     if (complexity.length) {
-      params.complexity = complexity.join(',');
+      params.complexity = complexity;
     }
 
     if (rate.length) {
-      params.rate = rate.join(',');
+      params.rate = rate;
     }
 
     if (skills.length) {
-      params.skills = skills.join(',');
+      params.skills = skills;
     }
 
     const response = await axios.get(QUESTIONS_URL, {

@@ -5,16 +5,12 @@ import classes from '../aside/Aside.module.css';
 import ButtonLookAll from '../UI/ButtonLookAll/ButtonLookAll';
 import MyTitle from '../UI/MyTitle/MyTitle';
 import Variant from '../UI/Specialization/Specialization';
+import { useSearchParams } from 'react-router-dom';
 
-export default function SpecializationBlock({
-  title,
-  data,
-  setSpecializations,
-  totalSpec,
-  changeSpecialization,
-  selectedId,
-}) {
+export default function SpecializationBlock({ title, data, setSpecializations, totalSpec }) {
   const [isLookAll, setIsLookAll] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedId = Number(searchParams.get('specialization'));
 
   const [fetchSpecializations] = useFetching(async () => {
     const response = await QuestionService.getAllSpecializations(isLookAll ? undefined : totalSpec);
@@ -30,8 +26,14 @@ export default function SpecializationBlock({
   };
 
   const handleClick = (id) => {
-    const newSpecialization = id === selectedId ? null : id;
-    changeSpecialization(newSpecialization);
+    const next = new URLSearchParams(searchParams);
+    if (id === selectedId) {
+      next.delete('specialization');
+    } else {
+      next.set('specialization', String(id));
+    }
+    next.set('page', String(1));
+    setSearchParams(next);
   };
 
   return (

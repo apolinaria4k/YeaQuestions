@@ -1,14 +1,14 @@
 import classes from '../aside/Aside.module.css';
 import MyTitle from '../UI/MyTitle/MyTitle';
-import SkillAndRate from '../UI/SkillAndRate/SkillAndRate';
+import Rate from '../UI/Rate/Rate';
 
-export default function RateBlock({ title, data, changeRate }) {
+export default function RateBlock({ title, data }) {
   return (
     <div>
       <MyTitle title={title} />
       <div className={classes.variants}>
         {data.map((item) => (
-          <SkillAndRate change={changeRate} id={item} key={item} title={item} />
+          <Rate key={item} title={item} />
         ))}
       </div>
     </div>

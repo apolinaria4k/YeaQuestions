@@ -3,17 +3,7 @@ import Skeleton from '../Skeleton/Skeleton';
 import Pagination from '../UI/Pagination/Pagination';
 import classes from './Section.module.css';
 
-export default function Section({
-  status,
-  error,
-  questions,
-  page,
-  totalPages,
-  handleClickPage,
-  handleNextPage,
-  handlePreviousPage,
-  setIsVisible,
-}) {
+export default function Section({ status, error, questions, totalPages, setIsVisible }) {
   return (
     <section className={classes.section}>
       <div className={classes.wrapper}>
@@ -50,13 +40,7 @@ export default function Section({
               <QuestionItem key={item.id} {...item} />
             ))}
           </ul>
-          <Pagination
-            page={page}
-            handleClickPage={handleClickPage}
-            handleNextPage={handleNextPage}
-            handlePreviousPage={handlePreviousPage}
-            totalPages={totalPages}
-          />
+          <Pagination totalPages={totalPages} />
         </>
       )}
     </section>

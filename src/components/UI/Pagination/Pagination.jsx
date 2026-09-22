@@ -1,14 +1,30 @@
+import { useSearchParams } from 'react-router-dom';
 import { usePagination } from '../../../hooks/usePagination';
 import classes from './Pagination.module.css';
 
-export default function Pagination({
-  totalPages,
-  page,
-  handleClickPage,
-  handleNextPage,
-  handlePreviousPage,
-}) {
+export default function Pagination({ totalPages }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
   const pagesArray = usePagination(page, totalPages);
+
+  const handleClickPage = (page) => {
+    searchParams.set('page', page);
+    setSearchParams(searchParams);
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      searchParams.set('page', page + 1);
+      setSearchParams(searchParams);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      searchParams.set('page', page - 1);
+      setSearchParams(searchParams);
+    }
+  };
 
   return (
     <div className={classes.paginationWrapper}>
