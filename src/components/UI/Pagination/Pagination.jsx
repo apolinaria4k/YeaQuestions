@@ -2,9 +2,10 @@ import { useSearchParams } from 'react-router-dom';
 import { usePagination } from '../../../hooks/usePagination';
 import classes from './Pagination.module.css';
 
-export default function Pagination({ totalPages }) {
+export default function Pagination() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
+  const totalPages = Number(searchParams.get('totalPages')) || 0;
   const pagesArray = usePagination(page, totalPages);
 
   const handleClickPage = (page) => {

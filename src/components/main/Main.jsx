@@ -12,10 +12,10 @@ import classes from './Main.module.css';
 export default function Main() {
   const { setQuestions } = useQuestions();
   const [isVisible, setIsVisible] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
+  // const [totalPages, setTotalPages] = useState(0);
   const [skillsAndSpec, setSkillsAndSpec] = useState({ skills: [], specializations: [] });
   const [totals, setTotals] = useState({ totalSpec: 5, totalSkills: 8 });
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
   const value = searchParams.get('value') || '';
   const specialization = Number(searchParams.get('specialization')) || null;
@@ -24,6 +24,12 @@ export default function Main() {
   const rate = searchParams.get('rate') || '';
 
   const debouncedValue = useDebounce(value, 400);
+
+  const setTotalPages = (total) => {
+    const next = new URLSearchParams(searchParams);
+    next.set('totalPages', String(total));
+    setSearchParams(next);
+  };
 
   const [fetchQuestions, status, error] = useFetching(
     async (page, title, specialization, skills, complexity, rate, signal) => {
@@ -37,7 +43,7 @@ export default function Main() {
         signal,
       );
       setQuestions(response.data.data);
-      console.log(response.data);
+      // console.log(response.data);
 
       const totalCount = response.data.total;
       setTotalPages(getTotalPages(totalCount));
@@ -91,12 +97,7 @@ export default function Main() {
     <>
       <main className={classes.main}>
         <div className={classes.wrapperMain}>
-          <Section
-            setIsVisible={setIsVisible}
-            totalPages={totalPages}
-            status={status}
-            error={error}
-          />
+          <Section setIsVisible={setIsVisible} status={status} error={error} />
           <Aside
             isVisible={isVisible}
             setIsVisible={setIsVisible}

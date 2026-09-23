@@ -1,25 +1,70 @@
 import classes from './MainDetails.module.css';
-
 import { useEffect, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import QuestionService from '../../API/QuestionService';
 import { useFetching } from '../../hooks/useFetching';
 import AsideDetailedQuestion from '../AsideDetailedQuestion/AsideDetailedQuestion';
 import SectionDetailedQuestion from '../SectionDetailedQuestion/SectionDetailedQuestion';
+import useQuestions from '../../hooks/useQuestions';
+import { getTotalPages } from '../utils/pages';
+import { useLocation } from 'react-router-dom';
 
 export default function MainDetails() {
+  const location = useLocation();
+  const { questions, setQuestions } = useQuestions();
   const { questionId } = useParams();
   const [questionData, setQuestionData] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page') || 1;
+  const page = Number(searchParams.get('page')) || 1;
+  const value = searchParams.get('value') || '';
+  const specialization = Number(searchParams.get('specialization')) || null;
+  const skills = searchParams.get('skills') || '';
+  const complexity = searchParams.get('complexity') || '';
+  const rate = searchParams.get('rate') || '';
+  const totalPages = Number(searchParams.get('totalPages')) || 0;
 
-  console.log(page);
+  const setTotalPages = (total) => {
+    const next = new URLSearchParams(searchParams);
+    next.set('totalPages', String(total));
+    setSearchParams(next);
+  };
+
+  const [fetchQuestions] = useFetching(
+    async (page, title, specialization, skills, complexity, rate) => {
+      const response = await QuestionService.getAllQuestions(
+        page,
+        title,
+        specialization,
+        skills,
+        complexity,
+        rate,
+      );
+      setQuestions(response.data.data);
+      console.log(response.data);
+      const totalCount = response.data.total;
+      // console.log(totalCount);
+      setTotalPages(getTotalPages(totalCount));
+    },
+  );
 
   const [fetchQuestionData, status] = useFetching(async (questionId) => {
     const response = await QuestionService.getQuestionById(questionId);
     setQuestionData(response.data);
   });
+
+  useEffect(() => {
+    if (!questions.length) {
+      console.log('click');
+      fetchQuestions(page, value, specialization, skills, complexity, rate);
+    } else {
+      console.log(questions);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchQuestions(page, value, specialization, skills, complexity, rate);
+  }, [page]);
 
   useEffect(() => {
     fetchQuestionData(questionId);
@@ -28,7 +73,7 @@ export default function MainDetails() {
   return (
     <main className={classes.main}>
       <div className={classes.linkWrapper}>
-        <Link to="/" className={classes.link}>
+        <Link to={{ pathname: '/', search: location.search }} className={classes.link}>
           Назад
         </Link>
       </div>
@@ -38,6 +83,7 @@ export default function MainDetails() {
         ) : (
           <>
             <SectionDetailedQuestion
+              totalPages={totalPages}
               setIsVisible={setIsVisible}
               title={questionData.title}
               description={questionData.description}

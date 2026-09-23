@@ -4,7 +4,7 @@ import Skeleton from '../Skeleton/Skeleton';
 import Pagination from '../UI/Pagination/Pagination';
 import classes from './Section.module.css';
 
-export default function Section({ status, error, totalPages, setIsVisible }) {
+export default function Section({ status, error, setIsVisible }) {
   const { questions } = useQuestions();
   return (
     <section className={classes.section}>
@@ -42,7 +42,7 @@ export default function Section({ status, error, totalPages, setIsVisible }) {
               <QuestionItem key={item.id} {...item} />
             ))}
           </ul>
-          <Pagination totalPages={totalPages} />
+          <Pagination />
         </>
       )}
     </section>
