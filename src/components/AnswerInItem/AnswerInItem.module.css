@@ -20,17 +20,27 @@
 .linkWrapper {
   display: flex;
   justify-content: right;
+  position: relative;
 }
 
 .link {
   font-weight: 600;
   font-size: 16px;
   line-height: 110%;
-  color: #303030;
+  color: #6a0bff;
+  padding-right: 24px;
 }
 
-.link:hover {
-  color: #6a0bff;
+.link::after {
+  content: '';
+  position: absolute;
+  display: flex;
+  width: 18px;
+  height: 14px;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  background-image: url('/public/bigArrowLeft.svg');
 }
 
 .active {
@@ -38,7 +48,36 @@
 }
 
 @media (max-width: 360px) {
-  .title {
-    font-size: 20px;
+  .textOfAnswer {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+
+    overflow-x: hidden;
+  }
+
+  .textOfAnswer a {
+    word-break: break-all;
+  }
+
+  .textOfAnswer ul,
+  .textOfAnswer ol {
+    padding-left: 20px;
+    margin-left: 0;
+  }
+
+  .textOfAnswer pre,
+  .textOfAnswer code {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
+  .wrapperCharacter {
+    gap: 16px;
   }
 }

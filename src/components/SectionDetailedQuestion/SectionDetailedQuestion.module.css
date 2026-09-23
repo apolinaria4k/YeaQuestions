@@ -22,6 +22,11 @@
   border-radius: 24px;
 }
 
+.svgWrapper {
+  display: flex;
+  align-items: flex-start;
+}
+
 .title {
   max-width: 270px;
   padding-top: 5px;
@@ -39,8 +44,19 @@
   color: #474747;
 }
 
+.svgButton {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .svgButton {
+    display: flex;
+  }
 }
 
 @media (max-width: 360px) {
+  .blockWrapper {
+    border-radius: 12px;
+    padding: 16px 10px;
+  }
 }

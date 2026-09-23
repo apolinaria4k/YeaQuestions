@@ -40,16 +40,38 @@
 
 @media (max-width: 768px) {
   .main {
+    width: 100%;
+    max-width: 768px;
     position: relative;
   }
 
   .wrapperMain {
     margin-bottom: 80px;
+    padding: 0 30px;
+    flex-direction: column;
+  }
+
+  .linkWrapper {
+    padding: 0 30px 0 30px;
+  }
+
+  .link {
+    padding-left: 24px;
+  }
+
+  .link::before {
+    left: 30px;
   }
 }
 
 @media (max-width: 360px) {
+  .main {
+    width: 100%;
+    max-width: 360px;
+  }
   .wrapperMain {
     margin-bottom: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

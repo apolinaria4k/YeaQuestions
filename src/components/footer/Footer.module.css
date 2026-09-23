@@ -69,6 +69,9 @@
 }
 
 @media (max-width: 360px) {
+  .wrapperFooter {
+    padding: 24px 16px 16px 16px;
+  }
   .additionalInfo {
     flex-direction: column;
   }

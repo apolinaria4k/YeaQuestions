@@ -34,11 +34,8 @@
 }
 
 @media (max-width: 360px) {
-  .title {
-    font-size: 20px;
-  }
-
   .item {
+    padding: 10px;
     font-size: 16px;
   }
 }

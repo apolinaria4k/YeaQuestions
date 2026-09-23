@@ -12,3 +12,35 @@
   color: #303030;
   margin-bottom: 20px;
 }
+
+@media (max-width: 360px) {
+  .text {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+
+    overflow-x: hidden;
+  }
+
+  .text a {
+    word-break: break-all;
+  }
+
+  .text ul,
+  .text ol {
+    padding-left: 20px;
+    margin-left: 0;
+  }
+
+  .text pre,
+  .text code {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    max-width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
+}

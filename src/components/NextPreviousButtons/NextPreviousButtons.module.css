@@ -47,3 +47,15 @@
   height: 16px;
   background-image: url('/public/arrowRightGrey.svg');
 }
+
+@media (max-width: 360px) {
+  .link {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+  }
+
+  .linksWrapper {
+    gap: 10px;
+  }
+}

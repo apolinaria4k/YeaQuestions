@@ -1,6 +1,4 @@
 .wrapper {
-  display: inline-block;
-  gap: 40px;
   font-weight: 600;
   font-size: 14px;
   line-height: 120%;
@@ -19,6 +17,13 @@
 
 @media (max-width: 360px) {
   .wrapper {
+    gap: 16px;
+  }
+  .text {
+    font-size: 12px;
+  }
+
+  .value {
     font-size: 12px;
   }
 }

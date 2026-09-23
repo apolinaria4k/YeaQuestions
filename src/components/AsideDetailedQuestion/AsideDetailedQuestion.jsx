@@ -5,21 +5,30 @@ import Levels from '../UI/Levels/Levels';
 import Skills from '../UI/Skills/Skills';
 import classes from './AsideDetailedQuestion.module.css';
 
-export default function AsideDetailedQuestion({ complexity, rate, questionSkills, keywords }) {
+export default function AsideDetailedQuestion({
+  complexity,
+  rate,
+  questionSkills,
+  keywords,
+  isVisible,
+  setIsVisible,
+}) {
   return (
     <aside className={classes.aside}>
-      <div className={classes.blockWrapper}>
+      <div
+        className={`${classes.blockWrapper} ${classes.filters} ${isVisible ? classes.active : ''}`}>
         <div className={classes.blockInner}>
-          <ButtonClose />
+          <ButtonClose setIsVisible={setIsVisible} />
+          <div className={classes.filtersWrapper}>
+            <Levels complexity={complexity} rate={rate} />
+            <Skills questionSkills={questionSkills} />
+            <KeyWords keywords={keywords} />
 
-          <Levels complexity={complexity} rate={rate} />
-          <Skills questionSkills={questionSkills} />
-          <KeyWords keywords={keywords} />
-
-          <div>
-            <p className={classes.author}>
-              Автор: <span className={classes.authorColor}>Дмитрий Мусиенко</span>
-            </p>
+            <div>
+              <p className={classes.author}>
+                Автор: <span className={classes.authorColor}>Дмитрий Мусиенко</span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

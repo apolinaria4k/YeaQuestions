@@ -1,4 +1,5 @@
 .guruWrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -25,4 +26,14 @@
 
 .afterName {
   color: #757575;
+}
+
+@media (max-width: 768px) {
+  .guruWrapper {
+    width: 100%;
+    /* max-width: 708px; */
+  }
+}
+
+@media (max-width: 360px) {
 }

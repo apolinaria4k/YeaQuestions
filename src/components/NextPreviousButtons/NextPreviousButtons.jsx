@@ -5,7 +5,7 @@ import classes from './NextPreviousButtons.module.css';
 export default function NextPreviousButtons() {
   const { questions } = useQuestions();
   const { questionId } = useParams();
-  console.log(questionId);
+
   const navigate = useNavigate();
 
   const handlePrevClick = () => {

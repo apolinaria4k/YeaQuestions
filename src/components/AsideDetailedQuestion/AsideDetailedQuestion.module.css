@@ -18,10 +18,16 @@
   border-radius: 24px;
 }
 
-.blockInner {
+.filtersWrapper {
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.blockInner {
+  display: flex;
+  flex-direction: column;
+  /* gap: 24px; */
 }
 
 .author {
@@ -39,14 +45,28 @@
 }
 
 @media (max-width: 768px) {
-  .aside {
-    max-width: 328px;
+  .filters {
+    width: 100%;
+    max-width: 300px;
     display: none;
     position: absolute;
     top: -22px;
     right: 0;
+    padding: 24px;
     border-radius: 0;
     box-shadow: 0px 4px 10px 0px #6a63761a;
+  }
+
+  .aside {
+    max-width: 708px;
+  }
+
+  .blockInner {
+    width: 100%;
+  }
+
+  .active {
+    display: flex;
   }
 
   .asideCloseButton:hover {
@@ -65,7 +85,11 @@
 
 @media (max-width: 360px) {
   .aside {
+    width: 100%;
     max-width: 360px;
-    padding: 20px 10px;
+  }
+
+  .filters {
+    max-width: 360px;
   }
 }

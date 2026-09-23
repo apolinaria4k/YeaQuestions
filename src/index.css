@@ -80,9 +80,9 @@ button {
 
 body {
   line-height: 1;
-  min-height: 100vh;
+  /* min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; */
 }
 
 #root {

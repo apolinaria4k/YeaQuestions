@@ -16,7 +16,7 @@
 
 .wrapper {
   display: none;
-  margin-bottom: 8px;
+  /* margin-bottom: 8px; */
 }
 
 .variants {
@@ -24,6 +24,10 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 8px;
+}
+
+.asideCloseButton {
+  height: 20px;
 }
 
 @media (max-width: 768px) {

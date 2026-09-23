@@ -143,4 +143,8 @@ button {
   .miniLogo {
     display: flex;
   }
+
+  .wrapperHeader {
+    padding: 10px;
+  }
 }

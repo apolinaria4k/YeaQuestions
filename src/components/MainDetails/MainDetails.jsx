@@ -1,7 +1,7 @@
 import classes from './MainDetails.module.css';
 
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import QuestionService from '../../API/QuestionService';
 import { useFetching } from '../../hooks/useFetching';
 import AsideDetailedQuestion from '../AsideDetailedQuestion/AsideDetailedQuestion';
@@ -10,6 +10,11 @@ import SectionDetailedQuestion from '../SectionDetailedQuestion/SectionDetailedQ
 export default function MainDetails() {
   const { questionId } = useParams();
   const [questionData, setQuestionData] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get('page') || 1;
+
+  console.log(page);
 
   const [fetchQuestionData, status] = useFetching(async (questionId) => {
     const response = await QuestionService.getQuestionById(questionId);
@@ -33,12 +38,15 @@ export default function MainDetails() {
         ) : (
           <>
             <SectionDetailedQuestion
+              setIsVisible={setIsVisible}
               title={questionData.title}
               description={questionData.description}
               shortAnswer={questionData.shortAnswer}
               longAnswer={questionData.longAnswer}
             />
             <AsideDetailedQuestion
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
               complexity={questionData.complexity}
               rate={questionData.rate}
               questionSkills={questionData.questionSkills}

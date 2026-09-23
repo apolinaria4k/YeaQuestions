@@ -6,11 +6,23 @@ import ShortAnswer from '../UI/ShortAnswer/ShortAnswer';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
 import classes from './SectionDetailedQuestion.module.css';
 
-export default function SectionDetailedQuestion({ title, description, shortAnswer, longAnswer }) {
+export default function SectionDetailedQuestion({
+  title,
+  description,
+  shortAnswer,
+  longAnswer,
+  setIsVisible,
+}) {
   return (
     <section className={classes.section}>
       <div className={classes.blockWrapper}>
-        <DetailedQuestionTitle title={title} description={description} />
+        <div className={classes.svgWrapper}>
+          <DetailedQuestionTitle
+            setIsVisible={setIsVisible}
+            title={title}
+            description={description}
+          />
+        </div>
       </div>
       <div className={classes.blockWrapper}>
         <NextPreviousButtons />
