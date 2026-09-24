@@ -11,7 +11,7 @@ import { useLocation } from 'react-router-dom';
 
 export default function MainDetails() {
   const location = useLocation();
-  const { questions, setQuestions } = useQuestions();
+  const { questions, setQuestions, loadedPage, setLoadedPage } = useQuestions();
   const { questionId } = useParams();
   const [questionData, setQuestionData] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
@@ -40,7 +40,9 @@ export default function MainDetails() {
         complexity,
         rate,
       );
+
       setQuestions(response.data.data);
+      setLoadedPage(page);
       console.log(response.data);
       const totalCount = response.data.total;
       setTotalPages(getTotalPages(totalCount));
@@ -51,15 +53,6 @@ export default function MainDetails() {
     const response = await QuestionService.getQuestionById(questionId);
     setQuestionData(response.data);
   });
-
-  useEffect(() => {
-    if (!questions.length) {
-      console.log('click');
-      fetchQuestions(page, value, specialization, skills, complexity, rate);
-    } else {
-      console.log(questions);
-    }
-  }, []);
 
   useEffect(() => {
     fetchQuestions(page, value, specialization, skills, complexity, rate);

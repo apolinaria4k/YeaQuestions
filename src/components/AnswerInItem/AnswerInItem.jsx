@@ -1,8 +1,8 @@
 import parse from 'html-react-parser';
+import { Link, useLocation } from 'react-router-dom';
 import Characteristic from '../UI/characteristic/Characteristic';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
 import classes from './AnswerInItem.module.css';
-import { Link, useLocation } from 'react-router-dom';
 
 export default function AnswerInItem({ id, rate, complexity, shortAnswer }) {
   const location = useLocation();
@@ -19,9 +19,6 @@ export default function AnswerInItem({ id, rate, complexity, shortAnswer }) {
           className={classes.link}>
           Подробнее
         </Link>
-        {/* <Link to={`/questions/${id}`} className={classes.link}>
-          Подробнее
-        </Link> */}
       </div>
     </div>
   );

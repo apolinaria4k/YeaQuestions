@@ -9,17 +9,19 @@ export const useFetching = (callback) => {
     const signal = args[args.length - 1];
     try {
       setStatus('loading');
+      setError(null);
+
       await callback(...args);
+
+      if (!signal?.aborted) {
+        setStatus('success');
+      }
     } catch (error) {
       if (axios.isCancel(error)) {
         return;
       }
       setError(error);
       setStatus('error');
-    } finally {
-      if (!signal?.aborted) {
-        setStatus('success');
-      }
     }
   };
 

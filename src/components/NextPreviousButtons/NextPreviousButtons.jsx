@@ -1,79 +1,79 @@
-import {
-  createSearchParams,
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useQuestions from '../../hooks/useQuestions';
 import classes from './NextPreviousButtons.module.css';
 
 export default function NextPreviousButtons() {
   const location = useLocation();
-  const { questions } = useQuestions();
+  const { questions, loadedPage } = useQuestions();
   const { questionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
   const totalPages = Number(searchParams.get('totalPages')) || 0;
   const navigate = useNavigate();
+  const pendingRef = useRef(null);
 
-  const changePage = () => {
+  useEffect(() => {
+    if (pendingRef.current === null) return;
+
+    if (loadedPage === pendingRef.current.targetPage && questions.length) {
+      const { position } = pendingRef.current;
+      const id = position === 'first' ? questions[0].id : questions[questions.length - 1].id;
+      navigate({
+        pathname: `/questions/${id}`,
+        search: location.search,
+      });
+
+      pendingRef.current = null;
+    }
+  }, [loadedPage, questions]);
+
+  const changePage = (page) => {
     const next = new URLSearchParams(searchParams);
-    next.set('page', String(page + 1));
+    next.set('page', String(page));
     setSearchParams(next);
   };
 
   const handlePrevClick = () => {
-    // if (questionId <= questions.length - 1) {
-    //   if (page <= totalPages) {
-    //     const next = new URLSearchParams(searchParams);
-    //     next.set('page', String(page + 1));
-    //     setSearchParams(next);
-
-    //     const prevQuestionIndex =
-    //       questions.findIndex((question) => question.id === Number(questionId)) - 1;
-    //     const prevQuestionId = questions[prevQuestionIndex].id;
-    //     navigate(`/questions/${prevQuestionId}`);
-    //   }
-    // }
-    const prevQuestionIndex =
-      questions.findIndex((question) => question.id === Number(questionId)) - 1;
-    const prevQuestionId = questions[prevQuestionIndex].id;
-    navigate(`/questions/${prevQuestionId}`);
+    if (pendingRef.current !== null) return;
+    if (!questions.length) return;
+    const currentIndex = questions.findIndex((q) => q.id === Number(questionId));
+    if (currentIndex === -1) {
+      navigate({
+        pathname: `/questions/${questions[questions.length - 1].id}`,
+        search: location.search,
+      });
+    } else if (currentIndex > 0) {
+      navigate({
+        pathname: `/questions/${questions[currentIndex - 1].id}`,
+        search: location.search,
+      });
+    } else if (currentIndex === 0) {
+      const targetPage = page > 1 ? page - 1 : totalPages;
+      pendingRef.current = { targetPage, position: 'last' };
+      changePage(targetPage);
+    }
   };
 
   const handleNextClick = () => {
-    const findIndex = questions.findIndex((question) => question.id === Number(questionId));
-    const nextQuestionIndex = findIndex === -1 ? 0 : findIndex + 1;
-    if (nextQuestionIndex <= questions.length - 1) {
-      console.log('click');
-      console.log(totalPages);
-      console.log(page);
-
-      const nextQuestionId = questions[nextQuestionIndex].id;
+    if (pendingRef.current !== null) return;
+    if (!questions.length) return;
+    const currentIndex = questions.findIndex((q) => q.id === Number(questionId));
+    if (currentIndex === -1) {
       navigate({
-        pathname: `/questions/${nextQuestionId}`,
-        search: '?' + createSearchParams(location.search),
+        pathname: `/questions/${questions[0].id}`,
+        search: location.search,
       });
-    } else if (page <= totalPages) {
-      console.log('page < totalPages');
-      changePage();
-      console.log(questions);
-
-      const nextQuestionId = questions[0].id;
+    } else if (currentIndex < questions.length - 1) {
       navigate({
-        pathname: `/questions/${nextQuestionId}`,
-        search: '?' + createSearchParams(location.search),
+        pathname: `/questions/${questions[currentIndex + 1].id}`,
+        search: location.search,
       });
-      console.log('nextpage');
+    } else if (currentIndex === questions.length - 1) {
+      const targetPage = page < totalPages ? page + 1 : 1;
+      pendingRef.current = { targetPage, position: 'first' };
+      changePage(targetPage);
     }
-    // const nextQuestionIndex =
-    //   questions.findIndex((question) => question.id === Number(questionId)) + 1;
-    // const nextQuestionId = questions[nextQuestionIndex].id;
-    // navigate({
-    //   pathname: `/questions/${nextQuestionId}`,
-    //   search: '?' + createSearchParams(location.search),
-    // });
   };
 
   return (

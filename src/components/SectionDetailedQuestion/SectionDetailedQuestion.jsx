@@ -7,6 +7,8 @@ import { sanitizeHtml } from '../utils/sanitizeHtml';
 import classes from './SectionDetailedQuestion.module.css';
 
 export default function SectionDetailedQuestion({
+  needNextPage,
+  setNeedNextPage,
   title,
   description,
   shortAnswer,
@@ -25,7 +27,7 @@ export default function SectionDetailedQuestion({
         </div>
       </div>
       <div className={classes.blockWrapper}>
-        <NextPreviousButtons />
+        <NextPreviousButtons needNextPage={needNextPage} setNeedNextPage={setNeedNextPage} />
       </div>
       <div className={classes.blockWrapper}>
         <ShortAnswer text={parse(sanitizeHtml(shortAnswer))} />
