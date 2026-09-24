@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import classes from '../Specialization/Specialization.module.css';
 import { useSearchParams } from 'react-router-dom';
+import classes from '../Specialization/Specialization.module.css';
 
 export default function Skill({ title, id }) {
-  const [isActive, setIsActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const skills = searchParams.get('skills') || '';
+  const arrSkills = skills.split(',').map((skill) => Number(skill));
 
   const changeSkill = (skill) => {
     const next = new URLSearchParams(searchParams);
@@ -23,7 +22,6 @@ export default function Skill({ title, id }) {
   };
 
   const handleClick = (id) => {
-    setIsActive((prev) => !prev);
     changeSkill(id);
   };
 
@@ -31,7 +29,7 @@ export default function Skill({ title, id }) {
     <>
       <button
         onClick={() => handleClick(id)}
-        className={isActive ? classes.activeButton : classes.button}>
+        className={arrSkills.includes(id) ? classes.activeButton : classes.button}>
         {title}
       </button>
     </>

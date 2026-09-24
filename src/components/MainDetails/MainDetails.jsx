@@ -43,7 +43,6 @@ export default function MainDetails() {
       setQuestions(response.data.data);
       console.log(response.data);
       const totalCount = response.data.total;
-      // console.log(totalCount);
       setTotalPages(getTotalPages(totalCount));
     },
   );

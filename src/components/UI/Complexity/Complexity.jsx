@@ -1,9 +1,7 @@
-import classes from '../Specialization/Specialization.module.css';
-import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import classes from '../Specialization/Specialization.module.css';
 
 export default function Complexity({ title, value }) {
-  const [isActive, setIsActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const complexity = searchParams.get('complexity') || '';
 
@@ -29,7 +27,6 @@ export default function Complexity({ title, value }) {
   };
 
   const handleClick = (value) => {
-    setIsActive((prev) => !prev);
     changeComplexity(value);
   };
 
@@ -37,7 +34,7 @@ export default function Complexity({ title, value }) {
     <div>
       <button
         onClick={() => handleClick(value)}
-        className={isActive ? classes.activeButton : classes.button}>
+        className={complexity.includes(value.join(',')) ? classes.activeButton : classes.button}>
         {title}
       </button>
     </div>

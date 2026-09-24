@@ -1,7 +1,12 @@
-import { createSearchParams, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  createSearchParams,
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import useQuestions from '../../hooks/useQuestions';
 import classes from './NextPreviousButtons.module.css';
-import { useSearchParams } from 'react-router-dom';
 
 export default function NextPreviousButtons() {
   const location = useLocation();
@@ -11,6 +16,12 @@ export default function NextPreviousButtons() {
   const page = Number(searchParams.get('page')) || 1;
   const totalPages = Number(searchParams.get('totalPages')) || 0;
   const navigate = useNavigate();
+
+  const changePage = () => {
+    const next = new URLSearchParams(searchParams);
+    next.set('page', String(page + 1));
+    setSearchParams(next);
+  };
 
   const handlePrevClick = () => {
     // if (questionId <= questions.length - 1) {
@@ -46,15 +57,15 @@ export default function NextPreviousButtons() {
       });
     } else if (page <= totalPages) {
       console.log('page < totalPages');
-      const next = new URLSearchParams(searchParams);
-      next.set('page', String(page + 1));
-      setSearchParams(next);
+      changePage();
+      console.log(questions);
 
-      // const nextQuestionId = questions[nextQuestionIndex].id;
-      // navigate({
-      //   pathname: `/questions/${nextQuestionId}`,
-      //   search: '?' + createSearchParams(location.search),
-      // });
+      const nextQuestionId = questions[0].id;
+      navigate({
+        pathname: `/questions/${nextQuestionId}`,
+        search: '?' + createSearchParams(location.search),
+      });
+      console.log('nextpage');
     }
     // const nextQuestionIndex =
     //   questions.findIndex((question) => question.id === Number(questionId)) + 1;

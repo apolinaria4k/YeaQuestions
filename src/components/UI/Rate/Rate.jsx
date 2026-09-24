@@ -1,11 +1,10 @@
 import { useSearchParams } from 'react-router-dom';
 import classes from '../Specialization/Specialization.module.css';
-import { useState } from 'react';
 
 export default function Rate({ title }) {
-  const [isActive, setIsActive] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const rate = searchParams.get('rate') || '';
+  const arrRate = rate.split(',').map((r) => Number(r));
 
   const changeRate = (newRate) => {
     const next = new URLSearchParams(searchParams);
@@ -21,7 +20,6 @@ export default function Rate({ title }) {
   };
 
   const handleClick = (id) => {
-    setIsActive((prev) => !prev);
     changeRate(id);
   };
 
@@ -29,7 +27,7 @@ export default function Rate({ title }) {
     <>
       <button
         onClick={() => handleClick(title)}
-        className={isActive ? classes.activeButton : classes.button}>
+        className={arrRate.includes(title) ? classes.activeButton : classes.button}>
         {title}
       </button>
     </>
