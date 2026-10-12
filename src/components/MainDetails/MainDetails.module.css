@@ -38,6 +38,11 @@
   background-image: url('/public/arrowleft.svg');
 }
 
+.repeatButton {
+  color: #6a0bff;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .main {
     width: 100%;

@@ -10,29 +10,21 @@ import { getTotalPages } from '../utils/pages';
 import classes from './Main.module.css';
 
 export default function Main() {
-  const { setQuestions } = useQuestions();
+  const { setQuestions, setTotalPages } = useQuestions();
   const [isVisible, setIsVisible] = useState(false);
-  // const [totalPages, setTotalPages] = useState(0);
   const [skillsAndSpec, setSkillsAndSpec] = useState({ skills: [], specializations: [] });
   const [totals, setTotals] = useState({ totalSpec: 5, totalSkills: 8 });
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
   const value = searchParams.get('value') || '';
   const specialization = Number(searchParams.get('specialization')) || null;
   const skills = searchParams.get('skills') || '';
   const complexity = searchParams.get('complexity') || '';
   const rate = searchParams.get('rate') || '';
-
   const debouncedValue = useDebounce(value, 400);
 
-  const setTotalPages = (total) => {
-    const next = new URLSearchParams(searchParams);
-    next.set('totalPages', String(total));
-    setSearchParams(next);
-  };
-
   const [fetchQuestions, status, error] = useFetching(
-    async (page, title, specialization, skills, complexity, rate, signal) => {
+    async (page, title, specialization, skills, complexity, rate, signal, isActual) => {
       const response = await QuestionService.getAllQuestions(
         page,
         title,
@@ -42,9 +34,15 @@ export default function Main() {
         rate,
         signal,
       );
-      setQuestions(response.data.data);
-      // console.log(response.data);
+      if (signal?.aborted) {
+        return;
+      }
 
+      if (!isActual()) {
+        return;
+      }
+
+      setQuestions(response.data.data);
       const totalCount = response.data.total;
       setTotalPages(getTotalPages(totalCount));
     },
@@ -89,8 +87,9 @@ export default function Main() {
   }, [page, debouncedValue, specialization, skills, complexity, rate]);
 
   useEffect(() => {
-    fetchSpecializations();
-    fetchSkills();
+    const controller = new AbortController();
+    fetchSpecializations(controller.signal);
+    fetchSkills(controller.signal);
   }, []);
 
   return (

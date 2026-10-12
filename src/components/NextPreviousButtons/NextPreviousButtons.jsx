@@ -1,32 +1,41 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import useQuestions from '../../hooks/useQuestions';
 import classes from './NextPreviousButtons.module.css';
 
 export default function NextPreviousButtons() {
   const location = useLocation();
-  const { questions, loadedPage } = useQuestions();
+  const { questions, loadedPage, totalPages, listStatus, setRetryTick } = useQuestions();
   const { questionId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
-  const totalPages = Number(searchParams.get('totalPages')) || 0;
   const navigate = useNavigate();
   const pendingRef = useRef(null);
+  const [failedTarget, setFailedTarget] = useState(null);
 
   useEffect(() => {
     if (pendingRef.current === null) return;
-
-    if (loadedPage === pendingRef.current.targetPage && questions.length) {
-      const { position } = pendingRef.current;
-      const id = position === 'first' ? questions[0].id : questions[questions.length - 1].id;
-      navigate({
-        pathname: `/questions/${id}`,
-        search: location.search,
-      });
-
+    if (listStatus === 'error') {
+      setFailedTarget({ ...pendingRef.current });
       pendingRef.current = null;
+      return;
     }
-  }, [loadedPage, questions]);
+
+    if (listStatus === 'success') {
+      if (loadedPage === pendingRef.current.targetPage && questions.length) {
+        const { position } = pendingRef.current;
+        const id = position === 'first' ? questions[0].id : questions[questions.length - 1].id;
+        navigate({
+          pathname: `/questions/${id}`,
+          search: location.search,
+        });
+
+        pendingRef.current = null;
+      } else if (loadedPage === pendingRef.current.targetPage && !questions.length) {
+        pendingRef.current = null;
+      }
+    }
+  }, [loadedPage, questions, listStatus]);
 
   const changePage = (page) => {
     const next = new URLSearchParams(searchParams);
@@ -35,6 +44,7 @@ export default function NextPreviousButtons() {
   };
 
   const handlePrevClick = () => {
+    setFailedTarget(null);
     if (pendingRef.current !== null) return;
     if (!questions.length) return;
     const currentIndex = questions.findIndex((q) => q.id === Number(questionId));
@@ -56,6 +66,7 @@ export default function NextPreviousButtons() {
   };
 
   const handleNextClick = () => {
+    setFailedTarget(null);
     if (pendingRef.current !== null) return;
     if (!questions.length) return;
     const currentIndex = questions.findIndex((q) => q.id === Number(questionId));
@@ -76,14 +87,33 @@ export default function NextPreviousButtons() {
     }
   };
 
+  const handleRepeat = () => {
+    if (!failedTarget) return;
+
+    pendingRef.current = failedTarget;
+    setFailedTarget(null);
+    changePage(failedTarget.targetPage);
+    setRetryTick((t) => t + 1);
+  };
+
   return (
-    <div className={classes.linksWrapper}>
-      <button onClick={handlePrevClick} className={`${classes.linkPrev} ${classes.link}`}>
-        Предыдущий
-      </button>
-      <button onClick={handleNextClick} className={`${classes.linkNext} ${classes.link}`}>
-        Следующий
-      </button>
-    </div>
+    <>
+      {failedTarget && (
+        <div>
+          <p>Не удалось загрузить вопрос</p>
+          <button className={classes.repeatButton} onClick={handleRepeat}>
+            Повторить
+          </button>
+        </div>
+      )}
+      <div className={classes.linksWrapper}>
+        <button onClick={handlePrevClick} className={`${classes.linkPrev} ${classes.link}`}>
+          Предыдущий
+        </button>
+        <button onClick={handleNextClick} className={`${classes.linkNext} ${classes.link}`}>
+          Следующий
+        </button>
+      </div>
+    </>
   );
 }

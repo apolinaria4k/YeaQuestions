@@ -7,7 +7,7 @@ export default function KeyWords({ keywords }) {
     <div>
       <MyTitle title="Ключевые слова:" />
       <div className={classes.keyWordsWrapper}>
-        {keywords.map((keyword, index) => (
+        {(keywords ?? []).map((keyword, index) => (
           <KeyWord key={index} title={keyword} />
         ))}
       </div>

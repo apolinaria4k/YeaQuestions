@@ -4,7 +4,7 @@ import classes from './NotFound.module.css';
 export default function NotFound() {
   const location = useLocation();
   return (
-    <main className={classes.main}>
+    <div className={classes.main}>
       <div className={classes.wrapperMain}>
         <div className={classes.textWrapper}>
           <p>Такая страница не найдена</p>
@@ -13,6 +13,6 @@ export default function NotFound() {
           К списку вопросов
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

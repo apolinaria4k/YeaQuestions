@@ -48,6 +48,11 @@
   background-image: url('/public/arrowRightGrey.svg');
 }
 
+.repeatButton {
+  color: #6a0bff;
+  cursor: pointer;
+}
+
 @media (max-width: 360px) {
   .link {
     font-weight: 400;

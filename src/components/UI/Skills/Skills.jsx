@@ -7,7 +7,7 @@ export default function Levels({ questionSkills }) {
     <div>
       <MyTitle title="Навыки:" />
       <div className={classes.variants}>
-        {questionSkills.map((skill) => (
+        {(questionSkills ?? []).map((skill) => (
           <SkillDetailedQuestion key={skill.id} title={skill.title} id={skill.id} />
         ))}
       </div>
